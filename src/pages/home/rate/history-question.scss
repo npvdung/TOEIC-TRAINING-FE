@@ -1,0 +1,51 @@
+.hvx-questionItem {
+  margin: 5px 0;
+
+  .hvx-textTitleItem {
+    display: flex;
+    font-size: 18px;
+    gap: 8px;
+  }
+  .question-explanation {
+    font-style: italic;
+  }
+}
+
+.itemChoose1of4 {
+  .hvx-itemOption {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .option {
+      margin: 1px 0;
+      font-size: 18px;
+      white-space: normal !important;
+      display: flex;
+    }
+    .option {
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+  }
+
+  .hvx-descImg {
+    max-width: 600px;
+  }
+  .hvx-descText {
+    font-size: 18px;
+  }
+}
+
+.hvx-questionItem {
+  .hvx-inputFillWord {
+    width: 200px;
+    margin-left: 10px;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+  }
+}

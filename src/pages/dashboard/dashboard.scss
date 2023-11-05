@@ -1,0 +1,471 @@
+.dashboard {
+  display: flex;
+
+  .sidebar {
+    max-height: 100vh;
+    width: 80px;
+    padding: 20px 0;
+    background: rgb(43, 42, 42);
+    min-height: 100vh;
+    transition: all 0.4s ease;
+
+    .menu-item-text {
+      color: white;
+      font-size: 20px;
+      margin-left: 10px;
+      display: none;
+    }
+
+    .sidebar-header {
+      text-align: center;
+    }
+
+    .sidebar-responsive {
+      margin: 15px;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: all 0.4s ease;
+
+      &:hover {
+        background: white;
+        transition: all 0.5s ease;
+        border-radius: 5px;
+
+        .sidebar-responsive-icon {
+          color: black;
+          transition: all 0.5s ease;
+        }
+      }
+    }
+
+    .sidebar-responsive-icon {
+      font-size: 30px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.4s ease;
+    }
+
+    .sidebar-user {
+      margin: 30px 0;
+
+      .user-avt {
+        width: 60px;
+        transition: all 0.4s ease;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+
+    .sidebar-menu-item {
+      text-align: center;
+      margin: 15px;
+      padding: 10px 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s;
+
+      &:hover {
+        background: white;
+        transition: all 0.5s ease;
+        border-radius: 5px;
+
+        .sidebar-menu-icon {
+          color: black;
+          transition: all 0.5s ease;
+        }
+      }
+    }
+
+    .active-menu {
+      background: white;
+      transition: all 0.5s ease;
+      border-radius: 5px;
+
+      .sidebar-menu-icon {
+        color: black;
+        transition: all 0.5s ease;
+      }
+
+      .menu-item-text {
+        color: black;
+      }
+    }
+
+    .sidebar-menu-icon {
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+  }
+
+  .sidebar-expand {
+    width: 200px;
+    transition: all 0.4s ease;
+    position: relative;
+
+    .sidebar-header {
+      width: 100%;
+
+      .user-avt {
+        width: 130px;
+        transition: all 0.4s ease;
+      }
+
+      .sidebar-responsive {
+        transition: all 0.4s ease;
+        height: max-content;
+        padding: 3px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 5px;
+      }
+
+      .icon-back {
+        transition: all 0.4s ease;
+        height: max-content;
+        padding: 3px;
+        position: absolute;
+        margin: 5px;
+        left: 0 !important;
+        top: 0;
+        width: max-content;
+      }
+    }
+
+    .menu-item-text {
+      display: block;
+      margin-top: 5px !important;
+    }
+
+    .sidebar-menu-item {
+      justify-content: flex-start;
+      align-items: center;
+      padding: 5px;
+
+      &:hover {
+        .menu-item-text {
+          color: black;
+          transition: all 0.4s ease;
+        }
+      }
+    }
+  }
+
+  .btn-add {
+    background-color: rgb(43, 42, 42);
+    color: white;
+    border: 1px solid rgb(43, 42, 42);
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  .align-item-center {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-content {
+    width: 100%;
+    max-height: 100vh;
+  }
+
+  .reset-icon {
+    color: white !important;
+    font-size: 22px;
+  }
+
+  .quest-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .content-wrapper {
+    max-height: calc(100vh - 60px);
+    overflow: auto;
+    // padding: 30px 10px;
+
+    th {
+      background: rgb(43, 42, 42);
+      color: white;
+    }
+
+    .table-field {
+      padding: 0 15px;
+    }
+
+    .ant-table-cell::before {
+      color: white;
+    }
+
+    .ant-table-column-has-sorters:hover {
+      background: rgb(43, 42, 42);
+    }
+
+    .content-top {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      min-height: 8vh;
+    }
+
+    .ant-table-content {
+      border: 1px solid rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .header-dashboard {
+    height: 60px;
+    position: relative;
+    display: flex;
+    z-index: 99;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    .header-left {
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 0;
+
+      .hvx-logo {
+        width: 80px;
+        height: 80px;
+        display: none;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .text-logo {
+        padding-bottom: 5px;
+      }
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-logo {
+      width: 150px;
+    }
+
+    .name {
+      font-size: 18px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .logout {
+      padding: 5px 10px;
+      margin-left: 20px;
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(43, 42, 42);
+        border-radius: 5px;
+        transition: 0.5s;
+
+        .logout-icon {
+          color: white;
+        }
+      }
+    }
+
+    .logout-icon {
+      font-size: 30px;
+    }
+  }
+
+  .btn-reset {
+    margin-left: 90px;
+  }
+
+  .form-add-question {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-add-item {
+      margin-bottom: 10px !important;
+    }
+  }
+}
+
+.exam-title {
+  margin: 10px 0 !important;
+  border-bottom: 1px solid rgba(43, 42, 42, 0.3);
+}
+
+.ant-tooltip-inner {
+  color: black !important;
+  background: white;
+}
+
+.ant-tooltip-arrow-content {
+  background: white;
+  color: white !important;
+}
+
+.ant-modal-footer {
+  display: none;
+}
+
+.btn-dashboard {
+  padding: 3px 16px;
+  background-color: rgb(43, 42, 42);
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid rgb(43, 42, 42);
+  color: white;
+
+  .span,
+  .icon {
+    color: white !important;
+  }
+
+  &:hover {
+    background: white;
+    transition: 0.5s;
+
+    > span,
+    .icon {
+      color: black !important;
+    }
+  }
+}
+
+.btn-dashboard-outline {
+  padding: 3px 16px;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid rgb(43, 42, 42) !important;
+  color: black;
+
+  &:hover {
+    background: rgb(43, 42, 42) !important;
+    transition: 0.5s;
+    border: 1px solid rgb(43, 42, 42) !important;
+
+    > span,
+    .icon {
+      color: white !important;
+    }
+  }
+}
+
+.quest-label {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-weight: bold;
+}
+
+.required {
+  color: red;
+}
+
+.filter-input {
+  margin: 10px 0;
+}
+
+.btn-action {
+  width: 75px;
+}
+
+.modal-table {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.question-selected-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.question-selected-list {
+  max-height: 65vh;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.question-selected-item {
+  padding: 10px 30px;
+  margin: 7px 0;
+  border: 1px solid rgba(43, 42, 42, 0.3);
+  border-radius: 5px;
+  background-color: #f8faff;
+}
+
+.close-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  border: 1px solid #d5d5d5;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #b0b0b0;
+}
+
+.dashboard-home {
+  max-height: calc(100vh - 60px);
+  .rp-item {
+    border: 1px solid #d5d5d5;
+    margin: 30px 0;
+    padding: 20px;
+    height: 150px;
+    border-radius: 10px;
+
+    &:hover {
+      box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+      transition: all 0.5s;
+      cursor: pointer;
+    }
+
+    .item-title {
+      font-size: 30px;
+    }
+
+    .btn-view {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 30px;
+    }
+  }
+}
+
+// .ant-modal-content {
+//   .inp-answ {
+//     resize: none;
+//   }
+// }

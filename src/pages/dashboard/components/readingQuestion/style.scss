@@ -1,0 +1,30 @@
+.form-view-question {
+  .form-add-item {
+    color: black !important;
+  }
+  .ant-input[disabled],
+  .ant-select-selector {
+    color: black !important;
+  }
+}
+
+.ant-form-item {
+  margin-bottom: 8px !important;
+}
+
+.quest-content-html {
+  display: flex;
+  div {
+    display: flex;
+  }
+}
+
+.table-field {
+  th {
+    background: rgb(43, 42, 42) !important;
+    color: white !important;
+  }
+  .ant-table-content {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+  }
+}

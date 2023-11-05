@@ -1,0 +1,154 @@
+.history-details {
+  .ant-modal-body {
+    padding: 12px !important;
+  }
+  .hvx-contentGame {
+    padding-top: 0px !important;
+    .hvx-contentTitle {
+      padding: 0px;
+    }
+  }
+
+  .history-details-content::-webkit-scrollbar {
+    width: 5px;
+  }
+  .history-details-content::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  .history-details-content::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+  .hvx-contentTitle {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .exam-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+    .number-of-correct {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 300px;
+      font-size: 24px;
+      color: red;
+      border-bottom: 8px solid red;
+    }
+    .info-content {
+      .item {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        font-size: 20px;
+        .title {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.hvx-contentGame {
+  padding-top: 0px;
+  height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  .hvx-contentTitle {
+    font-size: 20px;
+    padding: 15px 0;
+  }
+
+  .hvx-mainContent {
+  }
+  .question-request {
+    font-weight: 600;
+    font-style: italic;
+    font-size: 18px;
+  }
+}
+
+.title-reading {
+  font-size: 20px;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+}
+
+.paragraph-reading {
+  font-size: 18px;
+}
+
+.translate-reading {
+  font-style: italic;
+  font-size: 18px;
+  margin-top: 16px;
+}
+
+.hvx-questionItem {
+  margin: 5px 0;
+
+  .hvx-textTitleItem {
+    display: flex;
+    font-size: 18px;
+    gap: 8px;
+  }
+  .question-explanation {
+    font-style: italic;
+  }
+}
+
+.itemChoose1of4 {
+  .hvx-itemOption {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .option {
+      margin: 1px 0;
+      font-size: 18px;
+      white-space: normal !important;
+      display: flex;
+    }
+    .option {
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+  }
+
+  .hvx-descImg {
+    max-width: 600px;
+  }
+  .hvx-descText {
+    font-size: 18px;
+  }
+}
+
+.hvx-questionItem {
+  .hvx-inputFillWord {
+    width: 200px;
+    margin-left: 10px;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+  }
+}
+
+.random-exam-content {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}

@@ -1,0 +1,15 @@
+export const ROUTER_CONST = {
+  home: '/',
+  game: '/exam',
+  login: '/login',
+  register: '/register',
+  dashboard: '/dashboard',
+  profile: '/profile',
+  user: '/dashboard/users',
+  questions: '/dashboard/questions',
+  readingQuestions: '/dashboard/reading-questions',
+  categories: '/dashboard/categories',
+  exams: '/dashboard/exams',
+  dashboardHome: '/dashboard',
+  history: '/history',
+}

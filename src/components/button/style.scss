@@ -1,0 +1,15 @@
+.hvxButton{
+    box-shadow: 5px 8px 5px rgba(0, 0 ,0 , 0.46) !important;
+    border-radius: 25px;
+    height: 40px;
+    width: 100px;
+    background : linear-gradient(0deg, rgb(211, 84, 45) 0%, rgb(218, 25, 12) 100%);
+    border: 1px solid rgb(211, 84, 45);
+
+    &:hover{
+        border: 1px solid rgb(211, 84, 45);
+        background: white;
+        color: rgb(211, 84, 45);
+        box-shadow: none !important;
+    }
+}

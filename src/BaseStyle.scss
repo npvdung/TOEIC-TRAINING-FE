@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.cdnfonts.com/css/helvetica-2');
+@import url('https://fonts.cdnfonts.com/css/times-new-roman');
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+textarea {
+  resize: vertical;
+}
+
+img {
+  vertical-align: middle;
+}
+
+*,
+::before,
+::after {
+  background-repeat: no-repeat;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+::selection {
+  background: #0031a2;
+  color: #fff;
+}
+
+body {
+  // font-family: 'Merienda', cursive;
+  // font-family: 'Roboto', sans-serif;
+  // font-family: 'Open Sans', sans-serif;
+  // font-family: 'Helvetica', sans-serif;
+  font-family: 'Times New Roman', sans-serif;
+  font-size: 16px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.justifySpaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.justifyFlexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.d-none {
+  display: none;
+}
+
+.justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background: #a3bac8;
+  }
+}
+
+.quill {
+  .ql-toolbar {
+    padding: 0px !important;
+    background-color: aqua;
+    .ql-formats {
+      &:nth-child(1),
+      &:nth-child(3),
+      &:nth-child(4) {
+        display: none;
+      }
+      button {
+        &:last-child {
+          display: none;
+        }
+      }
+    }
+  }
+}
+.ql-editor {
+  font-size: 15px !important;
+  padding: 8px !important;
+  // font-family: 'Merienda', cursive;
+  // font-family: 'Roboto', sans-serif;
+  // font-family: 'Open Sans', sans-serif;
+  font-family: 'Times New Roman', sans-serif;
+  // font-family: 'Helvetica', sans-serif;
+}
+
+.ant-table,
+.ant-form label,
+.ant-input,
+.ant-form label {
+  font-size: 15px;
+}

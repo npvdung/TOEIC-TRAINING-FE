@@ -1,0 +1,41 @@
+.hvx-contentGame {
+  padding-top: 100px;
+  height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  .hvx-contentTitle {
+    font-size: 20px;
+    padding: 15px 0;
+  }
+
+  .hvx-mainContent {
+  }
+  .question-request {
+    font-weight: 600;
+    font-style: italic;
+    font-size: 18px;
+  }
+}
+
+.title-reading {
+  font-size: 20px;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+}
+
+.paragraph-reading {
+  font-size: 18px;
+}
+
+.translate-reading {
+  font-style: italic;
+  font-size: 18px;
+  margin-top: 16px;
+}
