@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import ForgotPass from './common/ForgotPass'
-import Login from './common/Login'
-import Register from './common/Register'
-import './style.scss'
-import { Spin } from 'antd'
-import Logo from '../../assets/logo/logo.png'
+import React, { useState } from "react";
+import ForgotPass from "./common/ForgotPass";
+import Login from "./common/Login";
+import Register from "./common/Register";
+import "./style.scss";
+import { Spin } from "antd";
+import Logo from "../../assets/logo/logo.png";
 
 const Oauth = () => {
-  const [menuSelected, setMenuSelected] = useState('login')
-  const [loading, setLoading] = useState(false)
+  const [menuSelected, setMenuSelected] = useState("login");
+  const [loading, setLoading] = useState(false);
 
   return (
     <div>
@@ -19,39 +19,31 @@ const Oauth = () => {
               <div className="logo">
                 <img className="logo-img" src={Logo} alt="Logo" />
                 <div className="text-logo">
-                  <h3>High School English</h3>
+                  <h3>TOEIC TRAINING</h3>
                 </div>
               </div>
               <div className="hvx-menuSelect">
                 <div
-                  className={`item ${menuSelected === 'login' ? 'active' : ''}`}
-                  onClick={() => setMenuSelected('login')}
+                  className={`item ${menuSelected === "login" ? "active" : ""}`}
+                  onClick={() => setMenuSelected("login")}
                 >
                   Login
                 </div>
                 <div className="breackCol"></div>
-                {/* <div
-                  className={`item ${
-                    menuSelected === "forgot" ? "active" : ""
-                  }`}
-                  onClick={() => setMenuSelected("forgot")}
-                >
-                  Forgot password
-                </div> */}
                 <div className="breackCol"></div>
                 <div
                   className={`item ${
-                    menuSelected === 'register' ? 'active' : ''
+                    menuSelected === "register" ? "active" : ""
                   }`}
-                  onClick={() => setMenuSelected('register')}
+                  onClick={() => setMenuSelected("register")}
                 >
                   Register
                 </div>
               </div>
               <div className="center">
-                {menuSelected === 'login' ? (
+                {menuSelected === "login" ? (
                   <Login setLoading={setLoading} />
-                ) : menuSelected === 'forgot' ? (
+                ) : menuSelected === "forgot" ? (
                   <ForgotPass />
                 ) : (
                   <Register
@@ -63,9 +55,13 @@ const Oauth = () => {
             </Spin>
           </div>
         </div>
+
+        <div className="poster-img">
+          <img src="logo2.png" alt="" />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Oauth
+export default Oauth;

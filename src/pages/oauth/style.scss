@@ -3,6 +3,14 @@
   width: 100%;
   min-height: 100vh;
   padding: 50px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    display: flex;
+    width: 50%; // Chia màn hình thành 2 phần bằng nhau
+  }
 
   .hvx-formLogin {
     background: white;
@@ -22,8 +30,8 @@
     justify-content: center;
     gap: 10px;
     img {
-      height: 80px;
-      width: 90px;
+      height: 100px;
+      width: 120px;
     }
     .text-logo {
       display: flex;
@@ -138,6 +146,10 @@
       right: 20px;
       z-index: 10;
     }
+  }
+
+  .poster-img {
+    flex: 1; // Phần bên phải chiếm 50% chiều rộng
   }
 }
 
