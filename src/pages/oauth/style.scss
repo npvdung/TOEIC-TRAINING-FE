@@ -1,8 +1,8 @@
 .hvx-loginPage {
   background-color: #f8f9fa;
   width: 100%;
-  min-height: 100vh;
-  padding: 50px 0;
+  min-height: 90vh;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@
   .hvx-menuSelect {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 20px;
 
     .item {
       padding: 10px 25px;
@@ -94,7 +94,7 @@
     .hvx-input {
       width: 100%;
       height: 50px;
-      border-radius: 25px;
+      border-radius: 10px;
       margin: 0 0 12px;
     }
 
@@ -146,10 +146,23 @@
       right: 20px;
       z-index: 10;
     }
+
+    .create-acc-button {
+      border: none;
+      background-color: white;
+      color: rgb(14 165 233);
+      cursor: pointer;
+      text-decoration: underline;
+      outline: none;
+    }
+
+    .create-acc-button:hover {
+      opacity: 0.7;
+    }
   }
 
   .poster-img {
-    flex: 1; // Phần bên phải chiếm 50% chiều rộng
+    flex: 1;
   }
 }
 

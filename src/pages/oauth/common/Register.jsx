@@ -1,40 +1,40 @@
-import React, { useState } from 'react'
-import { Form, Input } from 'antd'
-import HvxButton from '../../../components/button/HvxButton'
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
-import { registerRequest } from '../../../services/authService'
+import React, { useState } from "react";
+import { Form, Input } from "antd";
+import HvxButton from "../../../components/button/HvxButton";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { registerRequest } from "../../../services/authService";
 import {
   notificationErr,
   notificationSuccess,
-} from '../../../utils/Notification'
+} from "../../../utils/Notification";
 
-const Register = ({ setMenuSelected, setLoading }) => {
-  const [showPass, setShowPass] = useState(false)
+const Register = ({ setLoading, setIsModalOpen, isModalOpen }) => {
+  const [showPass, setShowPass] = useState(false);
 
   const onFinish = async (values) => {
-    setLoading(true)
+    setLoading(true);
     let param = {
       firstName: values.firstname,
       lastName: values.lastname,
       email: values.email,
       username: values.username,
       password: values.password,
-    }
+    };
+    setIsModalOpen(false);
 
-    registerRequest(param, getRegisterResponse, getError)
-  }
+    registerRequest(param, getRegisterResponse, getError);
+  };
 
   const getRegisterResponse = () => {
-    setLoading(false)
-    setMenuSelected('login')
-    notificationSuccess('Resgiter success!')
-  }
+    setLoading(false);
+    notificationSuccess("Resgiter success!");
+  };
 
   const getError = (error) => {
-    setLoading(false)
-    const err = error.response
-    notificationErr(err?.data?.message || 'Something went wrong :(')
-  }
+    setLoading(false);
+    const err = error.response;
+    notificationErr(err?.data?.message || "Something went wrong :(");
+  };
   return (
     <div className="loginForm">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
@@ -45,8 +45,8 @@ const Register = ({ setMenuSelected, setLoading }) => {
           className="hvx-input"
           name="firstname"
           rules={[
-            { required: true, message: 'Please input your first name!' },
-            { max: 20, message: 'Max length 20 character' },
+            { required: true, message: "Please input your first name!" },
+            { max: 20, message: "Max length 20 character" },
           ]}
         >
           <Input className="hvx-input" />
@@ -59,8 +59,8 @@ const Register = ({ setMenuSelected, setLoading }) => {
           className="hvx-input"
           name="lastname"
           rules={[
-            { required: true, message: 'Please input your last name!' },
-            { max: 20, message: 'Max length 20 character' },
+            { required: true, message: "Please input your last name!" },
+            { max: 20, message: "Max length 20 character" },
           ]}
         >
           <Input className="hvx-input" />
@@ -71,7 +71,7 @@ const Register = ({ setMenuSelected, setLoading }) => {
         <Form.Item
           className="hvx-input"
           name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+          rules={[{ required: true, message: "Please input your email!" }]}
         >
           <Input className="hvx-input" />
         </Form.Item>
@@ -83,15 +83,15 @@ const Register = ({ setMenuSelected, setLoading }) => {
           className="hvx-input"
           name="username"
           rules={[
-            { required: true, message: 'Please input your username!' },
-            { max: 20, message: 'Max length 20 character' },
-            { min: 5, message: 'Min length 6 character' },
+            { required: true, message: "Please input your username!" },
+            { max: 20, message: "Max length 20 character" },
+            { min: 5, message: "Min length 6 character" },
             {
               validator: (_, value) =>
                 // eslint-disable-next-line
                 /[^a-zA-Z0-9\-\/]/.test(value)
                   ? Promise.reject(
-                      new Error('Username cannot contain special characters')
+                      new Error("Username cannot contain special characters")
                     )
                   : Promise.resolve(),
             },
@@ -108,12 +108,12 @@ const Register = ({ setMenuSelected, setLoading }) => {
             name="password"
             className="password-input"
             rules={[
-              { required: true, message: 'Please input your password!' },
-              { max: 20, message: 'Max length 20 character' },
+              { required: true, message: "Please input your password!" },
+              { max: 20, message: "Max length 20 character" },
             ]}
           >
             <Input
-              type={showPass ? 'text' : 'password'}
+              type={showPass ? "text" : "password"}
               className="hvx-input"
             />
           </Form.Item>
@@ -137,7 +137,7 @@ const Register = ({ setMenuSelected, setLoading }) => {
         </Form.Item>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

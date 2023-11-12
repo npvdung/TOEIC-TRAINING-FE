@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Checkbox } from "antd";
+import { Form, Input, Checkbox, Modal } from "antd";
 import {
   EyeInvisibleOutlined,
   EyeOutlined,
@@ -18,10 +18,11 @@ import {
   saveUserInfo,
 } from "../../../utils/storage";
 
-const Login = ({ setLoading }) => {
+const Login = ({ setLoading, setIsModalOpen }) => {
   const history = useHistory();
   const usernameRemember = getUsernameRemember();
   const [showPass, setShowPass] = useState(false);
+  const [isModalForgetOpen, setIsModalForgetOpen] = useState(false);
 
   useEffect(() => {
     if (isLogin()) {
@@ -81,7 +82,7 @@ const Login = ({ setLoading }) => {
           name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Input className="hvx-input" />
+          <Input className="hvx-input" placeholder="Username" />
         </Form.Item>
         <label htmlFor="password" className="ml-2 mt-4">
           Password
@@ -98,6 +99,7 @@ const Login = ({ setLoading }) => {
             <Input
               type={showPass ? "text" : "password"}
               className="hvx-input"
+              placeholder="Password"
             />
           </Form.Item>
 
@@ -109,16 +111,46 @@ const Login = ({ setLoading }) => {
             )}
           </div>
         </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Form.Item name="remember" valuePropName="checked">
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+          <button
+            onMouseOver={(e) => (e.target.style.opacity = "0.7")}
+            onMouseOut={(e) => (e.target.style.opacity = "1")}
+            style={{
+              border: "none",
+              backgroundColor: "white",
+              opacity: "0.7",
+              cursor: "pointer",
+              paddingBottom: "12px",
+              color: "#94a3b8",
+              outline: "none",
+            }}
+            onClick={() => setIsModalForgetOpen(true)}
+          >
+            Forget password
+          </button>
+        </div>
 
-        <Form.Item name="remember" valuePropName="checked">
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+        <Modal
+          title="Create account"
+          visible={isModalForgetOpen}
+          onCancel={() => setIsModalForgetOpen(false)}
+          footer={null}
+        ></Modal>
 
         <Form.Item>
           <HvxButton
             type="primary"
             htmlType="submit"
-            text="login"
+            text="Login"
             icon={<LoginOutlined className="login-button-icon" />}
             className="hvx-btn-login"
           >
@@ -126,6 +158,12 @@ const Login = ({ setLoading }) => {
           </HvxButton>
         </Form.Item>
       </Form>
+      <button
+        className="center create-acc-button"
+        onClick={() => setIsModalOpen(true)}
+      >
+        If you don't have any account, create an account
+      </button>
     </div>
   );
 };
