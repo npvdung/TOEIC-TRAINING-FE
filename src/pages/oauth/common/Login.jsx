@@ -4,6 +4,8 @@ import {
   EyeInvisibleOutlined,
   EyeOutlined,
   LoginOutlined,
+  LockOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import HvxButton from "../../../components/button/HvxButton";
 import { useHistory } from "react-router-dom";
@@ -17,6 +19,7 @@ import {
   getUsernameRemember,
   saveUserInfo,
 } from "../../../utils/storage";
+import ForgotPass from "./ForgotPass";
 
 const Login = ({ setLoading, setIsModalOpen }) => {
   const history = useHistory();
@@ -82,13 +85,18 @@ const Login = ({ setLoading, setIsModalOpen }) => {
           name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Input className="hvx-input" placeholder="Username" />
+          <Input
+            className="hvx-input"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Username"
+          />
         </Form.Item>
         <label htmlFor="password" className="ml-2 mt-4">
           Password
         </label>
         <div className="posPass">
           <Form.Item
+            id="password"
             name="password"
             className="password-input"
             rules={[
@@ -97,9 +105,11 @@ const Login = ({ setLoading, setIsModalOpen }) => {
             ]}
           >
             <Input
+              id="password"
               type={showPass ? "text" : "password"}
               className="hvx-input"
               placeholder="Password"
+              prefix={<LockOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
 
@@ -134,28 +144,32 @@ const Login = ({ setLoading, setIsModalOpen }) => {
               outline: "none",
             }}
             onClick={() => setIsModalForgetOpen(true)}
+            type="button"
           >
             Forget password
           </button>
         </div>
 
         <Modal
-          title="Create account"
+          title="Reset password"
           visible={isModalForgetOpen}
           onCancel={() => setIsModalForgetOpen(false)}
           footer={null}
-        ></Modal>
+        >
+          <ForgotPass setIsModalForgetOpen={setIsModalForgetOpen} />
+        </Modal>
 
         <Form.Item>
-          <HvxButton
-            type="primary"
-            htmlType="submit"
-            text="Login"
-            icon={<LoginOutlined className="login-button-icon" />}
-            className="hvx-btn-login"
-          >
-            Login
-          </HvxButton>
+          <div className="hvx-btn-login">
+            <HvxButton
+              type="primary"
+              htmlType="submit"
+              text="Login"
+              icon={<LoginOutlined className="login-button-icon" />}
+            >
+              Login
+            </HvxButton>
+          </div>
         </Form.Item>
       </Form>
       <button

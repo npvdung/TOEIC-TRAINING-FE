@@ -5,12 +5,11 @@ import { getResultDetail } from "../../services/resultService";
 import { notificationWarning } from "../../utils/Notification";
 import { getUserInfo } from "../../utils/storage";
 import Header from "../home/header/Header";
-import './style.scss'
+import "./style.scss";
 
 const History = () => {
   const params = useParams();
   const currentUser = getUserInfo();
-
   const [resultDetail, setResultDetail] = useState();
 
   useEffect(() => {
@@ -46,14 +45,12 @@ const History = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params, resultDetail]);
-  
+
   return (
     <div className="history-page">
       <Header />
       <div className="history-main">
-          <div className="history-info">
-                
-          </div>
+        <div className="history-info"></div>
       </div>
     </div>
   );

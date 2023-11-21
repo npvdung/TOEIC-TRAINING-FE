@@ -1,8 +1,8 @@
-import { Button, Form, Input, Modal } from 'antd'
-import moment from 'moment'
-import { createCategories } from '../../../../services/categoriesService'
-import { notificationSuccess } from '../../../../utils/Notification'
-import TextArea from 'antd/lib/input/TextArea'
+import { Button, Form, Input, Modal } from "antd";
+import moment from "moment";
+import { createCategories } from "../../../../services/categoriesService";
+import { notificationSuccess } from "../../../../utils/Notification";
+import TextArea from "antd/lib/input/TextArea";
 
 const CreateCategory = ({
   openAddForm,
@@ -10,41 +10,41 @@ const CreateCategory = ({
   setLoading,
   setRefetch,
 }) => {
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   const onReset = () => {
-    form.resetFields()
-  }
+    form.resetFields();
+  };
 
   const handleAddCategory = (value) => {
     const params = {
       categoryName: value.categoryName,
       questionRequest: value.questionRequest,
-      createdAt: moment(Date.now()).format('YYYY/MM/DD'),
-    }
-    setLoading(true)
+      createdAt: moment(Date.now()).format("YYYY/MM/DD"),
+    };
+    setLoading(true);
     createCategories(
       params,
       () => {
-        setRefetch(Date.now())
-        setLoading(false)
-        notificationSuccess('Create successfully')
+        setRefetch(Date.now());
+        setLoading(false);
+        notificationSuccess("Create successfully");
       },
       (error) => {
-        console.log(error)
-        setLoading(false)
+        console.log(error);
+        setLoading(false);
       }
-    )
-    setOpenAddForm(false)
-    onReset()
-  }
+    );
+    setOpenAddForm(false);
+    onReset();
+  };
 
   return (
     <Modal
       title="Add category"
-      open={openAddForm}
+      visible={openAddForm}
       onCancel={() => {
-        setOpenAddForm(false)
+        setOpenAddForm(false);
       }}
     >
       <Form
@@ -57,17 +57,17 @@ const CreateCategory = ({
             Category Name
           </label>
           <Form.Item
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             name="categoryName"
             initialValue=""
             rules={[
               {
                 required: true,
-                message: 'Please input your category name!',
+                message: "Please input your category name!",
               },
               {
                 max: 50,
-                message: 'Category name too long!',
+                message: "Category name too long!",
               },
             ]}
           >
@@ -80,7 +80,7 @@ const CreateCategory = ({
             Question Request
           </label>
           <Form.Item
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             name="questionRequest"
             initialValue=""
           >
@@ -97,7 +97,7 @@ const CreateCategory = ({
         </div>
       </Form>
     </Modal>
-  )
-}
+  );
+};
 
-export default CreateCategory
+export default CreateCategory;

@@ -29,7 +29,7 @@ const HeaderDashboard = () => {
               alt="Logo"
             />
             <div className="text-logo">
-              <h1>High School English</h1>
+              <h1>TOEIC TRAINING</h1>
             </div>
           </div>
 

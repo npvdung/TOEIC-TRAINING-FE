@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import { Modal, Button, Form, Select } from 'antd'
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Form, Select } from "antd";
 import {
   questionLevel,
   questionPoint,
   questionType,
   QUESTION_CHOOSE_ABCD,
-} from '../../../../constants/dashboardConstants'
-import './style.scss'
-import { Eye } from 'react-bootstrap-icons'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+} from "../../../../constants/dashboardConstants";
+import "./style.scss";
+import { Eye } from "react-bootstrap-icons";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const { Option } = Select
+const { Option } = Select;
 
 const FormViewQuestion = ({ question, categoriesList }) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
   const [optionAnswer, setOptionAnswer] = useState({
-    optionA: '',
-    optionB: '',
-    optionC: '',
-    optionD: '',
-  })
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
+  });
 
   const modules = {
     toolbar: false,
-  }
+  };
 
   useEffect(() => {
     if (question && question.questionType === QUESTION_CHOOSE_ABCD) {
-      const arrOption = question.questionContent?.split('|')
+      const arrOption = question.questionContent?.split("|");
       if (arrOption) {
         setOptionAnswer({
           optionA: arrOption[0],
           optionB: arrOption[1],
           optionC: arrOption[2],
           optionD: arrOption[3],
-        })
+        });
       }
     }
-  }, [question])
+  }, [question]);
 
   const renderFormAnswer = (questType) => {
     if (questType) {
@@ -49,10 +49,10 @@ const FormViewQuestion = ({ question, categoriesList }) => {
               <span className="mt-2 mr-1"></span> Content
             </label>
             <div className="row pl-2 pr-2">
-              {' '}
+              {" "}
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionA"
                   className="form-add-item"
                   label="A"
@@ -68,7 +68,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionB"
                   className="form-add-item"
                   label="B"
@@ -84,7 +84,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionC"
                   className="form-add-item"
                   label="C"
@@ -100,7 +100,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionD"
                   className="form-add-item"
                   label="D"
@@ -116,12 +116,12 @@ const FormViewQuestion = ({ question, categoriesList }) => {
               </div>
             </div>
           </div>
-        )
+        );
       }
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   return (
     <>
@@ -135,7 +135,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
       <Modal
         title={`View question`}
         centered
-        open={visible}
+        visible={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
         width={1000}
@@ -165,13 +165,13 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Type</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionType"
                     className=" form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose type!',
+                        message: "Please choose type!",
                       },
                     ]}
                   >
@@ -179,7 +179,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                       <Option value="">Choose type</Option>
                       {questionType.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -192,7 +192,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Level</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionLevel"
                     className=" form-add-item"
                   >
@@ -200,7 +200,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                       <Option value="">Choose level</Option>
                       {questionLevel.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -213,7 +213,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Category</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionCategory"
                     className="form-add-item"
                   >
@@ -221,7 +221,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                       <Option value={0}>Choose category</Option>
                       {categoriesList?.map((category) => (
                         <Option key={category.id} value={category.id}>
-                          {category.categoryName}{' '}
+                          {category.categoryName}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -234,7 +234,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Point</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionPoint"
                     className="form-add-item"
                   >
@@ -242,7 +242,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                       <Option value={0}>Choose Point</Option>
                       {questionPoint?.map((point) => (
                         <Option key={point.id} value={point.value}>
-                          {point.value}{' '}
+                          {point.value}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -255,7 +255,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Title</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionTitle"
                     className="form-add-item"
                   >
@@ -275,7 +275,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Description</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionDescription"
                     className="form-add-item"
                   >
@@ -298,7 +298,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Answer</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionAnswer"
                     className="form-add-item"
                   >
@@ -318,7 +318,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                     <span className="mr-1">Explanation</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="explanation"
                     className="form-add-item"
                   >
@@ -350,7 +350,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
         </Form>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default FormViewQuestion
+export default FormViewQuestion;

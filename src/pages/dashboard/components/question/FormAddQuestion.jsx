@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Form, Select, Modal } from 'antd'
+import React, { useEffect, useState } from "react";
+import { Button, Form, Select, Modal } from "antd";
 import {
   questionLevel,
   questionPoint,
   questionType,
   QUESTION_CHOOSE_ABCD,
   QUESTION_READING,
-} from '../../../../constants/dashboardConstants'
-import { getContentABCD } from '../../../../utils/questionTools'
-import moment from 'moment'
+} from "../../../../constants/dashboardConstants";
+import { getContentABCD } from "../../../../utils/questionTools";
+import moment from "moment";
 import {
   notificationErr,
   notificationSuccess,
-} from '../../../../utils/Notification'
-import { getUserInfo } from '../../../../utils/storage'
-import { createQuestion } from '../../../../services/questionService'
-import { fetchCategories } from '../../../../services/categoriesService'
-import './style.scss'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+} from "../../../../utils/Notification";
+import { getUserInfo } from "../../../../utils/storage";
+import { createQuestion } from "../../../../services/questionService";
+import { fetchCategories } from "../../../../services/categoriesService";
+import "./style.scss";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const { Option } = Select
+const { Option } = Select;
 
 const FormAddQuestion = ({
   setLoading,
@@ -32,78 +32,78 @@ const FormAddQuestion = ({
   setQuestionList,
 }) => {
   const [questTypeSelected, setQuestTypeSelected] =
-    useState(QUESTION_CHOOSE_ABCD)
-  const [categoriesList, setCategoriesList] = useState([])
-  const userInfo = getUserInfo()
-  const [form] = Form.useForm()
+    useState(QUESTION_CHOOSE_ABCD);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const userInfo = getUserInfo();
+  const [form] = Form.useForm();
   const [question, setQuestion] = useState({
-    questionTitle: '',
-    questionContent: '',
-    questionAnswer: '',
-    questionDescription: '',
-    explanation: '',
-  })
+    questionTitle: "",
+    questionContent: "",
+    questionAnswer: "",
+    questionDescription: "",
+    explanation: "",
+  });
 
   const [optionAnswer, setOptionAnswer] = useState({
-    optionA: '',
-    optionB: '',
-    optionC: '',
-    optionD: '',
-  })
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
+  });
 
   const onReset = () => {
-    form.resetFields()
-  }
+    form.resetFields();
+  };
 
   const handleAddQuestion = (value) => {
     if (value) {
       const { questionType, questionLevel, questionCategory, questionPoint } =
-        value
+        value;
 
       const newQuestion = {
         questionType,
         questionLevel,
         questionCategory,
         questionPoint: questionPoint || 5,
-        questionTitle: question?.questionTitle || '',
-        questionDescription: question?.questionDescription || '',
-        questionAnswer: question?.questionAnswer || 'no answer',
+        questionTitle: question?.questionTitle || "",
+        questionDescription: question?.questionDescription || "",
+        questionAnswer: question?.questionAnswer || "no answer",
         questionExam: 0,
         questionContent: getContentABCD(optionAnswer),
-        explanation: question?.explanation || '',
+        explanation: question?.explanation || "",
         createdBy: userInfo?.id,
-        createdAt: moment(Date.now()).format('YYYY/MM/DD'),
-      }
+        createdAt: moment(Date.now()).format("YYYY/MM/DD"),
+      };
 
       if (addQuestionToReading) {
-        const temp = [...questionList]
-        temp.push(newQuestion)
-        setQuestionList(temp)
-        setOpenAddForm(false)
-        onReset()
+        const temp = [...questionList];
+        temp.push(newQuestion);
+        setQuestionList(temp);
+        setOpenAddForm(false);
+        onReset();
       } else {
-        setLoading(true)
+        setLoading(true);
         createQuestion(
           newQuestion,
           () => {
-            setRefetch(Date.now())
-            setLoading(false)
-            setOpenAddForm(false)
-            onReset()
-            notificationSuccess('Create successfully')
+            setRefetch(Date.now());
+            setLoading(false);
+            setOpenAddForm(false);
+            onReset();
+            notificationSuccess("Create successfully");
           },
           () => setLoading(false)
-        )
+        );
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetchCategories(
       (res) => setCategoriesList(res.data.data),
-      () => notificationErr('Oop something went wrong')
-    )
-  }, [])
+      () => notificationErr("Oop something went wrong")
+    );
+  }, []);
 
   const renderFormAnswer = (questType) => {
     if (questType) {
@@ -116,14 +116,14 @@ const FormAddQuestion = ({
             <div className="row pl-2 pr-2">
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionA"
                   className="form-add-item"
                   label="A"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option A!',
+                      message: "Please enter option A!",
                     },
                   ]}
                 >
@@ -139,14 +139,14 @@ const FormAddQuestion = ({
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionB"
                   className="form-add-item"
                   label="B"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option B!',
+                      message: "Please enter option B!",
                     },
                   ]}
                 >
@@ -162,14 +162,14 @@ const FormAddQuestion = ({
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionC"
                   className="form-add-item"
                   label="C"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option C!',
+                      message: "Please enter option C!",
                     },
                   ]}
                 >
@@ -185,14 +185,14 @@ const FormAddQuestion = ({
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionD"
                   className="form-add-item"
                   label="D"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option D!',
+                      message: "Please enter option D!",
                     },
                   ]}
                 >
@@ -208,21 +208,21 @@ const FormAddQuestion = ({
               </div>
             </div>
           </div>
-        )
+        );
       }
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   return (
     <Modal
       title="Add question"
       centered
-      open={openAddForm}
+      visible={openAddForm}
       onCancel={() => {
-        setOpenAddForm(false)
-        onReset()
+        setOpenAddForm(false);
+        onReset();
       }}
       width={1000}
     >
@@ -244,7 +244,7 @@ const FormAddQuestion = ({
                   <span className="required mt-2 mr-1">*</span> Type
                 </label>
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="questionType"
                   className=" form-add-item"
                 >
@@ -255,7 +255,7 @@ const FormAddQuestion = ({
                     <Option value="">Choose type</Option>
                     {questionType.map((item) => (
                       <Option key={item.id} value={item.id}>
-                        {item.name}{' '}
+                        {item.name}{" "}
                       </Option>
                     ))}
                   </Select>
@@ -268,13 +268,13 @@ const FormAddQuestion = ({
                   <span className="required mt-2 mr-1">*</span> Level
                 </label>
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="questionLevel"
                   className=" form-add-item"
                   rules={[
                     {
                       required: true,
-                      message: 'Please choose level!',
+                      message: "Please choose level!",
                     },
                   ]}
                 >
@@ -282,7 +282,7 @@ const FormAddQuestion = ({
                     <Option value="">Choose level</Option>
                     {questionLevel.map((item) => (
                       <Option key={item.id} value={item.id}>
-                        {item.name}{' '}
+                        {item.name}{" "}
                       </Option>
                     ))}
                   </Select>
@@ -295,13 +295,13 @@ const FormAddQuestion = ({
                   <span className="required mt-2 mr-1">*</span> Category
                 </label>
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="questionCategory"
                   className="form-add-item"
                   rules={[
                     {
                       required: true,
-                      message: 'Please choose category!',
+                      message: "Please choose category!",
                     },
                   ]}
                 >
@@ -309,7 +309,7 @@ const FormAddQuestion = ({
                     <Option value={0}>Choose category</Option>
                     {categoriesList?.map((category) => (
                       <Option key={category.id} value={category.id}>
-                        {category.categoryName}{' '}
+                        {category.categoryName}{" "}
                       </Option>
                     ))}
                   </Select>
@@ -323,7 +323,7 @@ const FormAddQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Point
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionPoint"
                     className="form-add-item"
                   >
@@ -331,7 +331,7 @@ const FormAddQuestion = ({
                       <Option value={0}>Choose Point</Option>
                       {questionPoint?.map((point) => (
                         <Option key={point.id} value={point.value}>
-                          {point.value}{' '}
+                          {point.value}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -345,7 +345,7 @@ const FormAddQuestion = ({
                   <span className="mt-2 mr-1">Title</span>
                 </label>
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="questionTitle"
                   className="form-add-item"
                 >
@@ -368,13 +368,13 @@ const FormAddQuestion = ({
                     <span className="mt-2 mr-1">Description</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionDescription"
                     className="form-add-item"
                     rules={[
                       {
                         max: 500,
-                        message: 'Description too long!',
+                        message: "Description too long!",
                       },
                     ]}
                   >
@@ -402,35 +402,35 @@ const FormAddQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Answer
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionAnswer"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your question answer!',
+                        message: "Please input your question answer!",
                       },
                       {
                         max: 200,
-                        message: 'Answer name too long!',
+                        message: "Answer name too long!",
                       },
                       ({ getFieldValue }) => ({
                         validator(_, value) {
                           if (
-                            getFieldValue('questionType') !==
+                            getFieldValue("questionType") !==
                               QUESTION_CHOOSE_ABCD ||
-                            getFieldValue('optionA') === value ||
-                            getFieldValue('optionB') === value ||
-                            getFieldValue('optionC') === value ||
-                            getFieldValue('optionD') === value
+                            getFieldValue("optionA") === value ||
+                            getFieldValue("optionB") === value ||
+                            getFieldValue("optionC") === value ||
+                            getFieldValue("optionD") === value
                           ) {
-                            return Promise.resolve()
+                            return Promise.resolve();
                           }
                           return Promise.reject(
                             new Error(
-                              'The answer does not match one of the options!'
+                              "The answer does not match one of the options!"
                             )
-                          )
+                          );
                         },
                       }),
                     ]}
@@ -455,7 +455,7 @@ const FormAddQuestion = ({
                     <span className="mt-2 mr-1">Explanation</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="explanation"
                     className="form-add-item"
                   >
@@ -483,8 +483,8 @@ const FormAddQuestion = ({
               <Form.Item>
                 <Button
                   onClick={() => {
-                    setOpenAddForm(false)
-                    onReset()
+                    setOpenAddForm(false);
+                    onReset();
                   }}
                   className="btn-dashboard-outline ml-2"
                 >
@@ -496,7 +496,7 @@ const FormAddQuestion = ({
         </div>
       </Form>
     </Modal>
-  )
-}
+  );
+};
 
-export default FormAddQuestion
+export default FormAddQuestion;

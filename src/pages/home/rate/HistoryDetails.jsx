@@ -1,54 +1,54 @@
-import { Modal, Spin } from 'antd'
-import { useEffect, useState } from 'react'
-import { notificationWarning } from '../../../utils/Notification'
-import { getExamDetails } from '../../../services/resultService'
-import './history-details.scss'
-import HistoryContent from './HistoryContent'
-import { getUserInfo } from '../../../utils/storage'
+import { Modal, Spin } from "antd";
+import { useEffect, useState } from "react";
+import { notificationWarning } from "../../../utils/Notification";
+import { getExamDetails } from "../../../services/resultService";
+import "./history-details.scss";
+import HistoryContent from "./HistoryContent";
+import { getUserInfo } from "../../../utils/storage";
 
 const HistoryDetails = (props) => {
-  const { show, onClose, selectedExam } = props
-  const [exam, setExam] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [userAnswer, setUserAnswer] = useState([])
-  const user = getUserInfo()
+  const { show, onClose, selectedExam } = props;
+  const [exam, setExam] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [userAnswer, setUserAnswer] = useState([]);
+  const user = getUserInfo();
 
   // console.log(user)
   const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000)
-    var seconds = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ' min ' + (seconds < 10 ? '0' : '') + seconds + ' sec'
-  }
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + " min " + (seconds < 10 ? "0" : "") + seconds + " sec";
+  };
 
   useEffect(() => {
     if (selectedExam?.examId) {
-      setLoading(true)
-      setUserAnswer(JSON.parse(selectedExam.answer))
+      setLoading(true);
+      setUserAnswer(JSON.parse(selectedExam.answer));
       getExamDetails(
         selectedExam?.examId,
         (res) => {
-          setExam(res.data)
-          setLoading(false)
+          setExam(res.data);
+          setLoading(false);
         },
         () => {
-          notificationWarning('Can not get history')
+          notificationWarning("Can not get history");
         }
-      )
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedExam])
+  }, [selectedExam]);
   // console.log(selectedExam)
-
+  console.log(show);
   return (
     <Modal
       title="History"
       centered
-      open={show}
+      visible={show}
       onCancel={onClose}
       onOk={onClose}
       width={1200}
       className="history-details"
-      cancelButtonProps={{ style: { display: 'none' } }}
+      cancelButtonProps={{ style: { display: "none" } }}
     >
       <Spin spinning={loading}>
         <div className="history-details-content">
@@ -90,7 +90,7 @@ const HistoryDetails = (props) => {
         </div>
       </Spin>
     </Modal>
-  )
-}
+  );
+};
 
-export default HistoryDetails
+export default HistoryDetails;

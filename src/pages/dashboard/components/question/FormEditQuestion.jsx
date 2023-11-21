@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { Modal, Button, Form, Select, Spin } from 'antd'
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Form, Select, Spin } from "antd";
 import {
   questionLevel,
   questionPoint,
   questionType,
   QUESTION_CHOOSE_ABCD,
-} from '../../../../constants/dashboardConstants'
-import { getContentABCD } from '../../../../utils/questionTools'
-import { getUserInfo } from '../../../../utils/storage'
-import moment from 'moment'
+} from "../../../../constants/dashboardConstants";
+import { getContentABCD } from "../../../../utils/questionTools";
+import { getUserInfo } from "../../../../utils/storage";
+import moment from "moment";
 import {
   notificationErr,
   notificationSuccess,
-} from '../../../../utils/Notification'
-import { editQuestion } from '../../../../services/questionService'
-import './style.scss'
-import { PencilSquare } from 'react-bootstrap-icons'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+} from "../../../../utils/Notification";
+import { editQuestion } from "../../../../services/questionService";
+import "./style.scss";
+import { PencilSquare } from "react-bootstrap-icons";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const { Option } = Select
+const { Option } = Select;
 
 const FormEditQuestion = ({
   question,
@@ -29,30 +29,30 @@ const FormEditQuestion = ({
   questionList,
   setQuestionList,
 }) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
   const [optionAnswer, setOptionAnswer] = useState({
-    optionA: '',
-    optionB: '',
-    optionC: '',
-    optionD: '',
-  })
-  const userInfo = getUserInfo()
-  const [loading, setLoading] = useState(false)
-  const [questionEdit, setQuestionEdit] = useState(question)
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
+  });
+  const userInfo = getUserInfo();
+  const [loading, setLoading] = useState(false);
+  const [questionEdit, setQuestionEdit] = useState(question);
 
   useEffect(() => {
     if (question && question.questionType === QUESTION_CHOOSE_ABCD) {
-      const arrOption = question.questionContent?.split('|')
+      const arrOption = question.questionContent?.split("|");
       if (arrOption) {
         setOptionAnswer({
           optionA: arrOption[0],
           optionB: arrOption[1],
           optionC: arrOption[2],
           optionD: arrOption[3],
-        })
+        });
       }
     }
-  }, [question])
+  }, [question]);
 
   const handleEditQuestion = (value) => {
     if (value) {
@@ -69,7 +69,7 @@ const FormEditQuestion = ({
         optionB,
         optionC,
         optionD,
-      } = value
+      } = value;
       const newQuestion = {
         id: question?.id,
         questionType,
@@ -83,35 +83,35 @@ const FormEditQuestion = ({
         explanation: explanation ? explanation : null,
         questionContent: getContentABCD({ optionA, optionB, optionC, optionD }),
         createdBy: userInfo?.id,
-        createdAt: moment(Date.now()).format('YYYY/MM/DD'),
-      }
+        createdAt: moment(Date.now()).format("YYYY/MM/DD"),
+      };
       if (editQuestionToReading) {
-        const temp = [...questionList]
-        const objIndex = temp.findIndex((obj) => obj.id === question.id)
+        const temp = [...questionList];
+        const objIndex = temp.findIndex((obj) => obj.id === question.id);
         temp[objIndex] = {
           ...newQuestion,
           readingId: question?.readingId,
-        }
-        setQuestionList(temp)
-        setVisible(false)
+        };
+        setQuestionList(temp);
+        setVisible(false);
       } else {
-        setLoading(true)
+        setLoading(true);
         editQuestion(
           newQuestion,
           () => {
-            setRefetch(Date.now())
-            setLoading(false)
-            notificationSuccess('Update successfully')
-            setVisible(false)
+            setRefetch(Date.now());
+            setLoading(false);
+            notificationSuccess("Update successfully");
+            setVisible(false);
           },
           (err) => {
-            setLoading(false)
-            notificationErr(err?.response?.message || 'Something went wrong')
+            setLoading(false);
+            notificationErr(err?.response?.message || "Something went wrong");
           }
-        )
+        );
       }
     }
-  }
+  };
 
   const renderFormAnswer = (questType) => {
     if (questType) {
@@ -122,17 +122,17 @@ const FormEditQuestion = ({
               <span className="required mt-2 mr-1">*</span> Content
             </label>
             <div className="row pl-2 pr-2">
-              {' '}
+              {" "}
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionA"
                   className="form-add-item"
                   label="A"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option A!',
+                      message: "Please enter option A!",
                     },
                   ]}
                 >
@@ -149,14 +149,14 @@ const FormEditQuestion = ({
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionB"
                   className="form-add-item"
                   label="B"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option B!',
+                      message: "Please enter option B!",
                     },
                   ]}
                 >
@@ -173,14 +173,14 @@ const FormEditQuestion = ({
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionC"
                   className="form-add-item"
                   label="C"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option C!',
+                      message: "Please enter option C!",
                     },
                   ]}
                 >
@@ -197,14 +197,14 @@ const FormEditQuestion = ({
               </div>
               <div className="col-md-6">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="optionD"
                   className="form-add-item"
                   label="D"
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter option D!',
+                      message: "Please enter option D!",
                     },
                   ]}
                 >
@@ -221,12 +221,12 @@ const FormEditQuestion = ({
               </div>
             </div>
           </div>
-        )
+        );
       }
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   return (
     <>
@@ -240,7 +240,7 @@ const FormEditQuestion = ({
       <Modal
         title="Edit question"
         centered
-        open={visible}
+        visible={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
         width={1000}
@@ -272,13 +272,13 @@ const FormEditQuestion = ({
                       <span className="required mt-2 mr-1">*</span> Type
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionType"
                       className=" form-add-item"
                       rules={[
                         {
                           required: true,
-                          message: 'Please choose type!',
+                          message: "Please choose type!",
                         },
                       ]}
                     >
@@ -286,7 +286,7 @@ const FormEditQuestion = ({
                         <Option value="">Choose type</Option>
                         {questionType.map((item) => (
                           <Option key={item.id} value={item.id}>
-                            {item.name}{' '}
+                            {item.name}{" "}
                           </Option>
                         ))}
                       </Select>
@@ -299,13 +299,13 @@ const FormEditQuestion = ({
                       <span className="required mt-2 mr-1">*</span> Level
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionLevel"
                       className=" form-add-item"
                       rules={[
                         {
                           required: true,
-                          message: 'Please choose level!',
+                          message: "Please choose level!",
                         },
                       ]}
                     >
@@ -313,7 +313,7 @@ const FormEditQuestion = ({
                         <Option value="">Choose level</Option>
                         {questionLevel.map((item) => (
                           <Option key={item.id} value={item.id}>
-                            {item.name}{' '}
+                            {item.name}{" "}
                           </Option>
                         ))}
                       </Select>
@@ -326,13 +326,13 @@ const FormEditQuestion = ({
                       <span className="required mt-2 mr-1">*</span> Category
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionCategory"
                       className="form-add-item"
                       rules={[
                         {
                           required: true,
-                          message: 'Please choose category!',
+                          message: "Please choose category!",
                         },
                       ]}
                     >
@@ -340,7 +340,7 @@ const FormEditQuestion = ({
                         <Option value={0}>Choose category</Option>
                         {categoriesList?.map((category) => (
                           <Option key={category.id} value={category.id}>
-                            {category.categoryName}{' '}
+                            {category.categoryName}{" "}
                           </Option>
                         ))}
                       </Select>
@@ -353,13 +353,13 @@ const FormEditQuestion = ({
                       <span className="required mt-2 mr-1">*</span> Point
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionPoint"
                       className="form-add-item"
                       rules={[
                         {
                           required: true,
-                          message: 'Please choose Point!',
+                          message: "Please choose Point!",
                         },
                       ]}
                     >
@@ -367,7 +367,7 @@ const FormEditQuestion = ({
                         <Option value={0}>Choose Point</Option>
                         {questionPoint?.map((point) => (
                           <Option key={point.id} value={point.value}>
-                            {point.value}{' '}
+                            {point.value}{" "}
                           </Option>
                         ))}
                       </Select>
@@ -380,7 +380,7 @@ const FormEditQuestion = ({
                       <span className="mt-2 mr-1">Title</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionTitle"
                       className="form-add-item"
                     >
@@ -405,13 +405,13 @@ const FormEditQuestion = ({
                       <span className="mt-2 mr-1">Description</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionDescription"
                       className="form-add-item"
                       rules={[
                         {
                           max: 500,
-                          message: 'Description too long!',
+                          message: "Description too long!",
                         },
                       ]}
                     >
@@ -439,35 +439,35 @@ const FormEditQuestion = ({
                       <span className="required mt-2 mr-1">*</span> Answer
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="questionAnswer"
                       className="form-add-item"
                       rules={[
                         {
                           required: true,
-                          message: 'Please input your question answer!',
+                          message: "Please input your question answer!",
                         },
                         {
                           max: 200,
-                          message: 'Answer name too long!',
+                          message: "Answer name too long!",
                         },
                         ({ getFieldValue }) => ({
                           validator(_, value) {
                             if (
-                              getFieldValue('questionType') !==
+                              getFieldValue("questionType") !==
                                 QUESTION_CHOOSE_ABCD ||
-                              getFieldValue('optionA') === value ||
-                              getFieldValue('optionB') === value ||
-                              getFieldValue('optionC') === value ||
-                              getFieldValue('optionD') === value
+                              getFieldValue("optionA") === value ||
+                              getFieldValue("optionB") === value ||
+                              getFieldValue("optionC") === value ||
+                              getFieldValue("optionD") === value
                             ) {
-                              return Promise.resolve()
+                              return Promise.resolve();
                             }
                             return Promise.reject(
                               new Error(
-                                'The answer does not match one of the options!'
+                                "The answer does not match one of the options!"
                               )
-                            )
+                            );
                           },
                         }),
                       ]}
@@ -493,7 +493,7 @@ const FormEditQuestion = ({
                       <span className="mt-2 mr-1">Explanation</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="explanation"
                       className="form-add-item"
                     >
@@ -527,7 +527,7 @@ const FormEditQuestion = ({
         </Spin>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default FormEditQuestion
+export default FormEditQuestion;

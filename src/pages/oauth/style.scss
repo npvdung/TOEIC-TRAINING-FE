@@ -95,27 +95,11 @@
       width: 100%;
       height: 50px;
       border-radius: 10px;
-      margin: 0 0 12px;
     }
 
     .ant-input {
       padding: 0 25px;
       font-size: 16px;
-
-      &:hover {
-        border: 1px solid rgb(140, 140, 140);
-        box-shadow: 2px 5px 10px rgba(71, 49, 49, 0.2);
-      }
-
-      &:active {
-        border: 1px solid rgb(140, 140, 140);
-        box-shadow: 2px 5px 10px rgba(71, 49, 49, 0.2);
-      }
-
-      &:focus {
-        border: 1px solid rgb(140, 140, 140);
-        box-shadow: 2px 5px 10px rgba(71, 49, 49, 0.2);
-      }
     }
 
     label {
@@ -166,6 +150,15 @@
   }
 }
 
+.ant-form-item-control-input {
+  min-height: 40px !important;
+}
+
+.hvx-btn-login {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
 @media screen and (max-width: 576px) {
   .hvx-loginPage {
     .item {

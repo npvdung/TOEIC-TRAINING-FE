@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { getHistory } from '../../../services/resultService'
-import { notificationErr } from '../../../utils/Notification'
-import { getUserInfo } from '../../../utils/storage'
-import HistoryDetails from './HistoryDetails'
+import React, { useEffect, useState } from "react";
+import { getHistory } from "../../../services/resultService";
+import { notificationErr } from "../../../utils/Notification";
+import { getUserInfo } from "../../../utils/storage";
+import HistoryDetails from "./HistoryDetails";
 
 const Sidebar = () => {
-  const [historyList, setHistoryList] = useState([])
-  const [showHistoryDetails, setShowHistoryDetails] = useState(false)
-  const [selectedExam, setSelectedExam] = useState({})
+  const [historyList, setHistoryList] = useState([]);
+  const [showHistoryDetails, setShowHistoryDetails] = useState(false);
+  const [selectedExam, setSelectedExam] = useState({});
 
-  const currentUser = getUserInfo()
+  const currentUser = getUserInfo();
 
   useEffect(() => {
     getHistory(
       currentUser.id,
       (res) => {
-        setHistoryList(res.data.data.reverse())
+        setHistoryList(res.data.data.reverse());
       },
-      () => notificationErr('Can not get history')
-    )
+      () => notificationErr("Can not get history")
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleViewDetailHistory = (exam) => {
-    setShowHistoryDetails(true)
-    setSelectedExam(exam)
-  }
+    setShowHistoryDetails(true);
+    setSelectedExam(exam);
+  };
 
   const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000)
-    var seconds = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ' min ' + (seconds < 10 ? '0' : '') + seconds + ' sec'
-  }
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + " min " + (seconds < 10 ? "0" : "") + seconds + " sec";
+  };
 
   return (
     <div className="col-md-3">
@@ -54,7 +54,7 @@ const Sidebar = () => {
                   onClick={() => handleViewDetailHistory(item)}
                 >
                   <p>
-                    <b>{item.examName || 'No name'}</b>
+                    <b>{item.examName || "No name"}</b>
                   </p>
                   <div className="history-info">
                     <p>
@@ -76,7 +76,7 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

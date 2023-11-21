@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Input, Form, Select, Modal, Table } from 'antd'
+import React, { useEffect, useState } from "react";
+import { Button, Input, Form, Select, Modal, Table } from "antd";
 import {
   questionLevel,
   questionType,
   QUESTION_READING,
   renderHTMLtoWord,
-} from '../../../../constants/dashboardConstants'
-import moment from 'moment'
-import { notificationSuccess } from '../../../../utils/Notification'
-import { getUserInfo } from '../../../../utils/storage'
-import FormAddQuestion from '../question/FormAddQuestion'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import './style.scss'
-import { PencilSquare, Trash } from 'react-bootstrap-icons'
-import FormEditQuestion from '../question/FormEditQuestion'
-import { updateReadingQuestion } from '../../../../services/readingQuestionService'
-import { removeQuestion } from '../../../../services/questionService'
-import Swal from 'sweetalert2'
+} from "../../../../constants/dashboardConstants";
+import moment from "moment";
+import { notificationSuccess } from "../../../../utils/Notification";
+import { getUserInfo } from "../../../../utils/storage";
+import FormAddQuestion from "../question/FormAddQuestion";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "./style.scss";
+import { PencilSquare, Trash } from "react-bootstrap-icons";
+import FormEditQuestion from "../question/FormEditQuestion";
+import { updateReadingQuestion } from "../../../../services/readingQuestionService";
+import { removeQuestion } from "../../../../services/questionService";
+import Swal from "sweetalert2";
 
-const { Option } = Select
+const { Option } = Select;
 
 const FormEditReadingQuestion = ({
   question,
@@ -27,24 +27,24 @@ const FormEditReadingQuestion = ({
   setLoading,
   setRefetch,
 }) => {
-  const [visible, setVisible] = useState(false)
-  const [questionList, setQuestionList] = useState([])
-  const [openAddQuestion, setOpenAddQuestion] = useState(false)
-  const [readingQuestion, setReadingQuestion] = useState(question)
-  const userInfo = getUserInfo()
-  const [form] = Form.useForm()
+  const [visible, setVisible] = useState(false);
+  const [questionList, setQuestionList] = useState([]);
+  const [openAddQuestion, setOpenAddQuestion] = useState(false);
+  const [readingQuestion, setReadingQuestion] = useState(question);
+  const userInfo = getUserInfo();
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    setReadingQuestion(question)
-    setQuestionList(question?.questionList)
-  }, [question])
+    setReadingQuestion(question);
+    setQuestionList(question?.questionList);
+  }, [question]);
 
   const columns = [
     {
-      title: 'Title',
-      dataIndex: 'questionTitle',
-      width: '60%',
-      key: 'questionTitle',
+      title: "Title",
+      dataIndex: "questionTitle",
+      width: "60%",
+      key: "questionTitle",
       render: (questionTitle) => (
         <div className="quest-content-html">
           {renderHTMLtoWord(questionTitle)}
@@ -52,10 +52,10 @@ const FormEditReadingQuestion = ({
       ),
     },
     {
-      title: 'Content',
-      dataIndex: 'questionContent',
-      width: '40%',
-      key: 'questionContent',
+      title: "Content",
+      dataIndex: "questionContent",
+      width: "40%",
+      key: "questionContent",
       render: (questionContent) => (
         <div className="quest-content-html">
           {renderHTMLtoWord(questionContent)}
@@ -63,8 +63,8 @@ const FormEditReadingQuestion = ({
       ),
     },
     {
-      title: '',
-      key: 'action',
+      title: "",
+      key: "action",
       render: (row) => {
         return (
           <div className="center flex-row">
@@ -83,18 +83,18 @@ const FormEditReadingQuestion = ({
               <Trash />
             </Button>
           </div>
-        )
+        );
       },
-      width: '10%',
+      width: "10%",
     },
-  ]
+  ];
   const onReset = () => {
-    form.resetFields()
-  }
+    form.resetFields();
+  };
 
   const handleUpdateReadingQuestion = (value) => {
     if (value) {
-      const { title, paragraph, translate, level, categoryId } = value
+      const { title, paragraph, translate, level, categoryId } = value;
       const newReadingQuestion = {
         id: readingQuestion?.id,
         title: title ? title : null,
@@ -104,47 +104,47 @@ const FormEditReadingQuestion = ({
         categoryId,
         questionList: questionList,
         createdBy: userInfo?.id,
-        createdAt: moment(Date.now()).format('YYYY/MM/DD'),
-      }
+        createdAt: moment(Date.now()).format("YYYY/MM/DD"),
+      };
 
-      setLoading(true)
+      setLoading(true);
       updateReadingQuestion(
         newReadingQuestion,
         () => {
-          setRefetch(Date.now())
-          onReset()
-          setVisible(false)
-          setLoading(false)
-          notificationSuccess('Update successfully')
+          setRefetch(Date.now());
+          onReset();
+          setVisible(false);
+          setLoading(false);
+          notificationSuccess("Update successfully");
         },
         () => setLoading(false)
-      )
+      );
     }
-  }
+  };
 
   const handleDeleteQuestion = (questionId) => {
     Swal.fire({
-      title: 'Are you sure delete this question?',
-      icon: 'warning',
+      title: "Are you sure delete this question?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes!',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
-        setLoading(true)
+        setLoading(true);
         removeQuestion(
           questionId,
           () => {
-            setLoading(false)
-            setRefetch(Date.now())
-            notificationSuccess('Delete successfully')
+            setLoading(false);
+            setRefetch(Date.now());
+            notificationSuccess("Delete successfully");
           },
           (error) => console.log(error)
-        )
+        );
       }
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -165,10 +165,10 @@ const FormEditReadingQuestion = ({
       <Modal
         title="Edit reading question"
         centered
-        open={visible}
+        visible={visible}
         onCancel={() => {
-          setVisible(false)
-          onReset()
+          setVisible(false);
+          onReset();
         }}
         width={1000}
       >
@@ -193,7 +193,7 @@ const FormEditReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Type
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionType"
                     className=" form-add-item"
                   >
@@ -201,7 +201,7 @@ const FormEditReadingQuestion = ({
                       <Option value="">Choose type</Option>
                       {questionType.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -213,13 +213,13 @@ const FormEditReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Level
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="level"
                     className=" form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose level!',
+                        message: "Please choose level!",
                       },
                     ]}
                   >
@@ -227,7 +227,7 @@ const FormEditReadingQuestion = ({
                       <Option value="">Choose level</Option>
                       {questionLevel.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -239,13 +239,13 @@ const FormEditReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Category
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="categoryId"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose category!',
+                        message: "Please choose category!",
                       },
                     ]}
                   >
@@ -253,7 +253,7 @@ const FormEditReadingQuestion = ({
                       <Option value={0}>Choose category</Option>
                       {categoriesList?.map((category) => (
                         <Option key={category.id} value={category.id}>
-                          {category.categoryName}{' '}
+                          {category.categoryName}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -265,7 +265,7 @@ const FormEditReadingQuestion = ({
                     <span className="mt-2 mr-1">Title</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="title"
                     className="form-add-item"
                   >
@@ -279,13 +279,13 @@ const FormEditReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Paragraph
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="paragraph"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input paragraph!',
+                        message: "Please input paragraph!",
                       },
                     ]}
                   >
@@ -309,7 +309,7 @@ const FormEditReadingQuestion = ({
                     <span className="mt-2 mr-1">Translate</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="translate"
                     className="form-add-item"
                   >
@@ -338,7 +338,7 @@ const FormEditReadingQuestion = ({
                   <Table
                     columns={columns}
                     dataSource={questionList}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     pagination={false}
                   />
                 </div>
@@ -350,7 +350,7 @@ const FormEditReadingQuestion = ({
                   <Button
                     className="btn-dashboard ml-2"
                     onClick={() => {
-                      setOpenAddQuestion(true)
+                      setOpenAddQuestion(true);
                     }}
                   >
                     Add question
@@ -368,7 +368,7 @@ const FormEditReadingQuestion = ({
                 <Form.Item>
                   <Button
                     onClick={() => {
-                      setVisible(false)
+                      setVisible(false);
                     }}
                     className="btn-dashboard-outline ml-2"
                   >
@@ -381,7 +381,7 @@ const FormEditReadingQuestion = ({
         </Form>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default FormEditReadingQuestion
+export default FormEditReadingQuestion;

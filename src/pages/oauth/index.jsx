@@ -4,7 +4,6 @@ import Login from "./common/Login";
 import Register from "./common/Register";
 import "./style.scss";
 import { Spin, Modal } from "antd";
-import Logo from "../../assets/logo/logo.png";
 
 const Oauth = () => {
   const [loading, setLoading] = useState(false);
@@ -48,6 +47,7 @@ const Oauth = () => {
         </div>
 
         <Modal
+          style={{ borderRadius: "5px" }}
           title="Create account"
           visible={isModalOpen}
           onCancel={handleCancel}

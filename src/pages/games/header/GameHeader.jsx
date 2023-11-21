@@ -29,7 +29,7 @@ const GameHeader = () => {
           <div className="hvx-headerContent-left">
             <img className="hvx-logo" src={logo} alt="logoHVX" />
             <div className="text-logo">
-              <h1>High School English</h1>
+              <h1>TOEIC TRAINING</h1>
             </div>
           </div>
           <div className="hvx-headerContent-right center">

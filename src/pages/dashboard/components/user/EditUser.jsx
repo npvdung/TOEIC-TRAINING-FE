@@ -1,51 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import { Modal, Button, Form, Select, Spin, Input, Checkbox } from 'antd'
-import { roleUser } from '../../../../constants/dashboardConstants'
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Form, Select, Spin, Input, Checkbox } from "antd";
+import { roleUser } from "../../../../constants/dashboardConstants";
 import {
   notificationErr,
   notificationSuccess,
-} from '../../../../utils/Notification'
-import { PencilSquare } from 'react-bootstrap-icons'
-import './style.scss'
-import { updateRoleActivated } from '../../../../services/userService'
+} from "../../../../utils/Notification";
+import { PencilSquare } from "react-bootstrap-icons";
+import "./style.scss";
+import { updateRoleActivated } from "../../../../services/userService";
 
-const { Option } = Select
+const { Option } = Select;
 
 const EditUser = ({ user, setRefetch }) => {
-  const [visible, setVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [isActivated, setIsActivated] = useState(false)
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isActivated, setIsActivated] = useState(false);
 
   useEffect(() => {
     if (user) {
-      setIsActivated(user.isActivated)
+      setIsActivated(user.isActivated);
     }
-  }, [user])
+  }, [user]);
 
   const changeIsActivated = (e) => {
-    setIsActivated(e.target.checked)
-  }
+    setIsActivated(e.target.checked);
+  };
 
   const handleEditUser = (value) => {
     const updateData = {
       id: user?.id,
       role: value?.role,
       isActivated: isActivated,
-    }
-    setLoading(true)
+    };
+    setLoading(true);
     updateRoleActivated(updateData)
       .then((res) => {
-        notificationSuccess('Edit user successfully')
-        setRefetch(Date.now())
-        setVisible(false)
-        setLoading(false)
+        notificationSuccess("Edit user successfully");
+        setRefetch(Date.now());
+        setVisible(false);
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err)
-        notificationErr('Update user failed')
-        setLoading(false)
-      })
-  }
+        console.log(err);
+        notificationErr("Update user failed");
+        setLoading(false);
+      });
+  };
 
   return (
     <>
@@ -59,7 +59,7 @@ const EditUser = ({ user, setRefetch }) => {
       <Modal
         title="Edit User"
         centered
-        open={visible}
+        visible={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
         width={1000}
@@ -86,7 +86,7 @@ const EditUser = ({ user, setRefetch }) => {
                       <span className="mt-2 mr-1">ID</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="id"
                       className=" form-add-item"
                     >
@@ -100,7 +100,7 @@ const EditUser = ({ user, setRefetch }) => {
                       <span className="mt-2 mr-1">Username</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="username"
                       className=" form-add-item"
                     >
@@ -114,7 +114,7 @@ const EditUser = ({ user, setRefetch }) => {
                       <span className="mt-2 mr-1">First Name</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="firstName"
                       className=" form-add-item"
                     >
@@ -128,7 +128,7 @@ const EditUser = ({ user, setRefetch }) => {
                       <span className="mt-2 mr-1">Last Name</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="lastName"
                       className=" form-add-item"
                     >
@@ -142,7 +142,7 @@ const EditUser = ({ user, setRefetch }) => {
                       <span className="mt-2 mr-1">Email</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="email"
                       className=" form-add-item"
                     >
@@ -156,13 +156,13 @@ const EditUser = ({ user, setRefetch }) => {
                       <span className="mt-2 mr-1">Role</span>
                     </label>
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="role"
                       className="form-add-item"
                       rules={[
                         {
                           required: true,
-                          message: 'Please choose role!',
+                          message: "Please choose role!",
                         },
                       ]}
                     >
@@ -179,7 +179,7 @@ const EditUser = ({ user, setRefetch }) => {
                   {/* Activated */}
                   <div className="col-md-6">
                     <Form.Item
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       name="isActivated"
                       className="form-add-item"
                     >
@@ -207,7 +207,7 @@ const EditUser = ({ user, setRefetch }) => {
         </Spin>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default EditUser
+export default EditUser;

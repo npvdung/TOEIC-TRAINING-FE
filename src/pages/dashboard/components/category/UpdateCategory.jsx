@@ -1,9 +1,9 @@
-import { Button, Form, Input, Modal, Spin } from 'antd'
-import moment from 'moment'
-import { editCategories } from '../../../../services/categoriesService'
-import { notificationSuccess } from '../../../../utils/Notification'
-import { useEffect } from 'react'
-import TextArea from 'antd/lib/input/TextArea'
+import { Button, Form, Input, Modal, Spin } from "antd";
+import moment from "moment";
+import { editCategories } from "../../../../services/categoriesService";
+import { notificationSuccess } from "../../../../utils/Notification";
+import { useEffect } from "react";
+import TextArea from "antd/lib/input/TextArea";
 
 const UpdateCategory = ({
   isModalVisible,
@@ -14,41 +14,41 @@ const UpdateCategory = ({
   setLoading,
   setRefetch,
 }) => {
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
   const handleEditCategory = (value) => {
     const newCategory = {
       categoryId: categoryEdit?.id,
       categoryName: value.categoryName,
       questionRequest: value.questionRequest,
-      updatedAt: moment(Date.now()).format('YYYY/MM/DD'),
-    }
-    setLoading(true)
+      updatedAt: moment(Date.now()).format("YYYY/MM/DD"),
+    };
+    setLoading(true);
     editCategories(
       newCategory,
       () => {
-        notificationSuccess('Edit successfully')
-        setRefetch(Date.now())
-        setIsModalVisible(false)
-        setLoading(false)
-        setCategoryEdit(null)
+        notificationSuccess("Edit successfully");
+        setRefetch(Date.now());
+        setIsModalVisible(false);
+        setLoading(false);
+        setCategoryEdit(null);
       },
       (error) => {
-        console.log(error)
-        setLoading(false)
+        console.log(error);
+        setLoading(false);
       }
-    )
-  }
+    );
+  };
 
   useEffect(() => {
-    form.setFieldsValue({ categoryName: categoryEdit?.categoryName })
-    form.setFieldsValue({ questionRequest: categoryEdit?.questionRequest })
+    form.setFieldsValue({ categoryName: categoryEdit?.categoryName });
+    form.setFieldsValue({ questionRequest: categoryEdit?.questionRequest });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryEdit])
+  }, [categoryEdit]);
 
   return (
     <Modal
       title="Edit category"
-      open={isModalVisible}
+      visible={isModalVisible}
       onCancel={() => setIsModalVisible(false)}
     >
       <Spin spinning={loading}>
@@ -62,16 +62,16 @@ const UpdateCategory = ({
               Category Name
             </label>
             <Form.Item
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               name="categoryName"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your category name!',
+                  message: "Please input your category name!",
                 },
                 {
                   max: 50,
-                  message: 'Category name too long!',
+                  message: "Category name too long!",
                 },
               ]}
             >
@@ -83,7 +83,7 @@ const UpdateCategory = ({
               Question Request
             </label>
             <Form.Item
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               name="questionRequest"
               initialValue=""
             >
@@ -100,6 +100,6 @@ const UpdateCategory = ({
         </Form>
       </Spin>
     </Modal>
-  )
-}
-export default UpdateCategory
+  );
+};
+export default UpdateCategory;

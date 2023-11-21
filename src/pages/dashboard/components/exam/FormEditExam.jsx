@@ -1,18 +1,18 @@
-import { Button, Form, Input, Modal, Radio, Spin } from 'antd'
-import React, { useState, useEffect } from 'react'
-import Swal from 'sweetalert2'
-import { updateExam } from '../../../../services/examService'
-import { listQuestionRequest } from '../../../../services/gameService'
-import { notificationWarning } from '../../../../utils/Notification'
-import { getUserInfo } from '../../../../utils/storage'
+import { Button, Form, Input, Modal, Radio, Spin } from "antd";
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import { updateExam } from "../../../../services/examService";
+import { listQuestionRequest } from "../../../../services/gameService";
+import { notificationWarning } from "../../../../utils/Notification";
+import { getUserInfo } from "../../../../utils/storage";
 // import QuestionDetailItem from './QuestionDetailItem'
-import './style.scss'
-import { Eye } from 'react-bootstrap-icons'
-import { renderHTMLtoWord } from '../../../../constants/dashboardConstants'
-import { fetchCategories } from '../../../../services/categoriesService'
+import "./style.scss";
+import { Eye } from "react-bootstrap-icons";
+import { renderHTMLtoWord } from "../../../../constants/dashboardConstants";
+import { fetchCategories } from "../../../../services/categoriesService";
 
 const RenderReading = (props) => {
-  const { reading } = props
+  const { reading } = props;
   return (
     <div>
       <div className="title-reading">{renderHTMLtoWord(reading?.title)}</div>
@@ -20,19 +20,19 @@ const RenderReading = (props) => {
         {renderHTMLtoWord(reading?.paragraph)}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const ExamContent = (props) => {
-  const [categoriesList, setCategoriesList] = useState([])
-  const { listQuestion, readingList } = props
-  let count = 0
+  const [categoriesList, setCategoriesList] = useState([]);
+  const { listQuestion, readingList } = props;
+  let count = 0;
 
   useEffect(() => {
     fetchCategories((res) => {
-      setCategoriesList(res.data.data)
-    })
-  }, [])
+      setCategoriesList(res.data.data);
+    });
+  }, []);
   return (
     <div className="hvx-contentGame ">
       <div className="hvx-mainContent">
@@ -40,7 +40,7 @@ const ExamContent = (props) => {
           {categoriesList?.map((category, index) => {
             const checkCategory = listQuestion?.findIndex(
               (quest) => quest.questionCategory === category.id
-            )
+            );
             if (checkCategory !== -1) {
               return (
                 <div key={index}>
@@ -49,61 +49,61 @@ const ExamContent = (props) => {
                   </div>
                   {readingList?.map((reading, index) => {
                     if (reading.categoryId === category.id) {
-                      return <RenderReading key={index} reading={reading} />
+                      return <RenderReading key={index} reading={reading} />;
                     }
-                    return true
+                    return true;
                   })}
                   {listQuestion?.map((question, index) => {
                     if (
                       question.questionCategory === category.id &&
                       question.readingId == null
                     ) {
-                      count = count + 1
+                      count = count + 1;
                       return (
                         <ViewQuestion
                           key={index}
                           question={question}
                           stt={count}
                         />
-                      )
+                      );
                     } else if (
                       question.questionCategory === category.id &&
                       question.readingId != null
                     ) {
-                      count = count + 1
+                      count = count + 1;
                       return (
                         <ViewQuestion
                           key={index}
                           question={question}
                           stt={index + 1}
                         />
-                      )
+                      );
                     }
-                    return true
+                    return true;
                   })}
                 </div>
-              )
+              );
             }
-            return true
+            return true;
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const ViewQuestion = ({ question, stt }) => {
-  const [objAnswer, setObjAnswer] = useState([])
+  const [objAnswer, setObjAnswer] = useState([]);
 
   useEffect(() => {
     const getAnswer = () => {
       if (question) {
-        let ObjAnswer = question?.questionContent.split('|')
-        setObjAnswer(ObjAnswer)
+        let ObjAnswer = question?.questionContent.split("|");
+        setObjAnswer(ObjAnswer);
       }
-    }
-    getAnswer()
-  }, [question])
+    };
+    getAnswer();
+  }, [question]);
 
   return (
     <div
@@ -111,7 +111,7 @@ const ViewQuestion = ({ question, stt }) => {
       id={`quest${question?.id}`}
     >
       <p className="hvx-textTitleItem">
-        <span style={{ fontWeight: '600', minWidth: 'max-content' }}>
+        <span style={{ fontWeight: "600", minWidth: "max-content" }}>
           Question {stt}.
         </span>
         <span>{renderHTMLtoWord(question.questionTitle)}</span>
@@ -120,7 +120,7 @@ const ViewQuestion = ({ question, stt }) => {
         <Radio className="col-md-6 option" value={objAnswer[0]}>
           <div
             className="d-flex"
-            style={{ gap: '4px' }}
+            style={{ gap: "4px" }}
             dangerouslySetInnerHTML={{
               __html: JSON.parse(`{"html": "A.  ${objAnswer[0]}"}`).html,
             }}
@@ -129,7 +129,7 @@ const ViewQuestion = ({ question, stt }) => {
         <Radio className="col-md-6 option" value={objAnswer[1]}>
           <div
             className="d-flex"
-            style={{ gap: '4px' }}
+            style={{ gap: "4px" }}
             dangerouslySetInnerHTML={{
               __html: JSON.parse(`{"html": "B.  ${objAnswer[1]}"}`).html,
             }}
@@ -138,7 +138,7 @@ const ViewQuestion = ({ question, stt }) => {
         <Radio className="col-md-6 option" value={objAnswer[2]}>
           <div
             className="d-flex"
-            style={{ gap: '4px' }}
+            style={{ gap: "4px" }}
             dangerouslySetInnerHTML={{
               __html: JSON.parse(`{"html": "B.  ${objAnswer[2]}"}`).html,
             }}
@@ -147,7 +147,7 @@ const ViewQuestion = ({ question, stt }) => {
         <Radio className="col-md-6 option" value={objAnswer[3]}>
           <div
             className="d-flex"
-            style={{ gap: '4px' }}
+            style={{ gap: "4px" }}
             dangerouslySetInnerHTML={{
               __html: JSON.parse(`{"html": "B.  ${objAnswer[3]}"}`).html,
             }}
@@ -155,19 +155,19 @@ const ViewQuestion = ({ question, stt }) => {
         </Radio>
       </Radio.Group>
     </div>
-  )
-}
+  );
+};
 const FormEditExam = ({ examId, category, setRefetch }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [examInfo, setExamInfo] = useState()
-  const [mode, setMode] = useState('view')
-  const currentUser = getUserInfo()
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [examInfo, setExamInfo] = useState();
+  const [mode, setMode] = useState("view");
+  const currentUser = getUserInfo();
 
   const handleEditExam = (value) => {
     Swal.fire({
-      title: 'Do you sure you want to exit?',
-      icon: 'warning',
+      title: "Do you sure you want to exit?",
+      icon: "warning",
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -175,23 +175,23 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
           examId: examId,
           examName: value?.examName,
           totalTime: value?.time,
-        }
-        setLoading(true)
+        };
+        setLoading(true);
         updateExam(
           payload,
           (res) => {
-            setLoading(false)
-            setIsModalVisible(false)
-            setRefetch(Date.now())
+            setLoading(false);
+            setIsModalVisible(false);
+            setRefetch(Date.now());
           },
           (err) => {
-            console.log(err.response)
-            setLoading(false)
+            console.log(err.response);
+            setLoading(false);
           }
-        )
+        );
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (examId) {
@@ -201,15 +201,15 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
           userId: currentUser?.id,
         },
         (res) => {
-          setExamInfo(res.data)
+          setExamInfo(res.data);
         },
         () => {
-          notificationWarning('Can not get exam info')
+          notificationWarning("Can not get exam info");
         }
-      )
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [examId])
+  }, [examId]);
 
   return (
     <div>
@@ -218,9 +218,9 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
       </Button>
       <Modal
         title="Exam Infomation"
-        open={isModalVisible}
+        visible={isModalVisible}
         onCancel={() => {
-          setIsModalVisible(false)
+          setIsModalVisible(false);
         }}
         width={1200}
         centered
@@ -237,22 +237,22 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
             <div className="row">
               <div className="col-md-4">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="examName"
                   label="Name"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your category name!',
+                      message: "Please input your category name!",
                     },
                     {
                       max: 50,
-                      message: 'Category name too long!',
+                      message: "Category name too long!",
                     },
                   ]}
                 >
                   <Input
-                    disabled={mode === 'view'}
+                    disabled={mode === "view"}
                     placeholder="Enter category name"
                   />
                 </Form.Item>
@@ -264,28 +264,28 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
               </div>
               <div className="col-md-2">
                 <Form.Item
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   name="time"
                   label="Time"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input time!',
+                      message: "Please input time!",
                     },
                     () => ({
                       validator(_, value) {
                         if (!/\D/.test(value)) {
-                          return Promise.resolve()
+                          return Promise.resolve();
                         }
                         return Promise.reject(
-                          new Error('Please enter the number!')
-                        )
+                          new Error("Please enter the number!")
+                        );
                       },
                     }),
                   ]}
                 >
                   <Input
-                    disabled={mode === 'view'}
+                    disabled={mode === "view"}
                     placeholder="Enter category name"
                   />
                 </Form.Item>
@@ -319,16 +319,16 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
               >
                 Close
               </Button>
-              {mode === 'view' && (
+              {mode === "view" && (
                 <Button
                   htmlType="button"
                   className="btn-dashboard mt-2 ml-2"
-                  onClick={() => setMode('edit')}
+                  onClick={() => setMode("edit")}
                 >
                   Edit
                 </Button>
               )}
-              {mode === 'edit' && (
+              {mode === "edit" && (
                 <Button htmlType="submit" className="btn-dashboard mt-2 ml-2">
                   Done
                 </Button>
@@ -338,7 +338,7 @@ const FormEditExam = ({ examId, category, setRefetch }) => {
         </Spin>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default FormEditExam
+export default FormEditExam;

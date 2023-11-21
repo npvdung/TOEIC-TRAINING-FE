@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import { Button, Input, Form, Select, Modal, Table } from 'antd'
+import React, { useState } from "react";
+import { Button, Input, Form, Select, Modal, Table } from "antd";
 import {
   questionLevel,
   questionType,
   QUESTION_READING,
-} from '../../../../constants/dashboardConstants'
-import moment from 'moment'
-import { notificationSuccess } from '../../../../utils/Notification'
-import { getUserInfo } from '../../../../utils/storage'
-import { createReadingQuestion } from '../../../../services/questionService'
-import FormAddQuestion from './FormAddQuestion'
+} from "../../../../constants/dashboardConstants";
+import moment from "moment";
+import { notificationSuccess } from "../../../../utils/Notification";
+import { getUserInfo } from "../../../../utils/storage";
+import { createReadingQuestion } from "../../../../services/questionService";
+import FormAddQuestion from "./FormAddQuestion";
 
-const { Option } = Select
-const { TextArea } = Input
+const { Option } = Select;
+const { TextArea } = Input;
 
 const FormAddReadingQuestion = ({
   setLoading,
@@ -21,57 +21,57 @@ const FormAddReadingQuestion = ({
   setOpenFormReadingQuestion,
   categoriesList,
 }) => {
-  const [questionList, setQuestionList] = useState([])
-  const [openAddQuestion, setOpenAddQuestion] = useState(false)
-  const userInfo = getUserInfo()
-  const [form] = Form.useForm()
+  const [questionList, setQuestionList] = useState([]);
+  const [openAddQuestion, setOpenAddQuestion] = useState(false);
+  const userInfo = getUserInfo();
+  const [form] = Form.useForm();
 
   const columns = [
     {
-      title: 'Title',
-      dataIndex: 'questionTitle',
-      width: '30%',
-      key: 'questionTitle',
+      title: "Title",
+      dataIndex: "questionTitle",
+      width: "30%",
+      key: "questionTitle",
     },
     {
-      title: 'Content',
-      dataIndex: 'questionContent',
-      width: '20%',
-      key: 'questionContent',
+      title: "Content",
+      dataIndex: "questionContent",
+      width: "20%",
+      key: "questionContent",
       render: (questionContent) => (
         <div className="quest-content">{questionContent}</div>
       ),
     },
-  ]
+  ];
   const onReset = () => {
-    form.resetFields()
-  }
+    form.resetFields();
+  };
 
   const handleAddReadingQuestion = (value) => {
     if (value) {
-      const { readingTitle, paragraph, translate } = value
+      const { readingTitle, paragraph, translate } = value;
       const newReadingQuestion = {
         title: readingTitle,
         paragraph,
         translate,
         questionList: questionList,
         createdBy: userInfo?.id,
-        createdAt: moment(Date.now()).format('YYYY/MM/DD'),
-      }
-      setLoading(true)
+        createdAt: moment(Date.now()).format("YYYY/MM/DD"),
+      };
+      setLoading(true);
       createReadingQuestion(
         newReadingQuestion,
         () => {
-          setRefetch(Date.now())
-          setLoading(false)
-          setOpenFormReadingQuestion(false)
-          onReset()
-          notificationSuccess('Create successfully')
+          setRefetch(Date.now());
+          setLoading(false);
+          setOpenFormReadingQuestion(false);
+          onReset();
+          notificationSuccess("Create successfully");
         },
         () => setLoading(false)
-      )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -85,10 +85,10 @@ const FormAddReadingQuestion = ({
       <Modal
         title="Add reading question"
         centered
-        open={openFormReadingQuestion}
+        visible={openFormReadingQuestion}
         onCancel={() => {
-          setOpenFormReadingQuestion(false)
-          onReset()
+          setOpenFormReadingQuestion(false);
+          onReset();
         }}
         width={1000}
       >
@@ -109,7 +109,7 @@ const FormAddReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Type
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionType"
                     className=" form-add-item"
                   >
@@ -117,7 +117,7 @@ const FormAddReadingQuestion = ({
                       <Option value="">Choose type</Option>
                       {questionType.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -129,13 +129,13 @@ const FormAddReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Level
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionLevel"
                     className=" form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose level!',
+                        message: "Please choose level!",
                       },
                     ]}
                   >
@@ -143,7 +143,7 @@ const FormAddReadingQuestion = ({
                       <Option value="">Choose level</Option>
                       {questionLevel.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -155,13 +155,13 @@ const FormAddReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Category
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionCategory"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose category!',
+                        message: "Please choose category!",
                       },
                     ]}
                   >
@@ -169,7 +169,7 @@ const FormAddReadingQuestion = ({
                       <Option value={0}>Choose category</Option>
                       {categoriesList?.map((category) => (
                         <Option key={category.id} value={category.id}>
-                          {category.categoryName}{' '}
+                          {category.categoryName}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -181,7 +181,7 @@ const FormAddReadingQuestion = ({
                     <span className="mt-2 mr-1">Title</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="readingTitle"
                     className="form-add-item"
                   >
@@ -195,13 +195,13 @@ const FormAddReadingQuestion = ({
                     <span className="required mt-2 mr-1">*</span> Paragraph
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="paragraph"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input paragraph!',
+                        message: "Please input paragraph!",
                       },
                     ]}
                   >
@@ -214,7 +214,7 @@ const FormAddReadingQuestion = ({
                     <span className="mt-2 mr-1">Translate</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="translate"
                     className="form-add-item"
                   >
@@ -232,7 +232,7 @@ const FormAddReadingQuestion = ({
                   <Table
                     columns={columns}
                     dataSource={questionList}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     pagination={false}
                   />
                 </div>
@@ -244,7 +244,7 @@ const FormAddReadingQuestion = ({
                   <Button
                     className="btn-dashboard ml-2"
                     onClick={() => {
-                      setOpenAddQuestion(true)
+                      setOpenAddQuestion(true);
                     }}
                   >
                     Add question
@@ -262,7 +262,7 @@ const FormAddReadingQuestion = ({
                 <Form.Item>
                   <Button
                     onClick={() => {
-                      setOpenFormReadingQuestion(false)
+                      setOpenFormReadingQuestion(false);
                     }}
                     className="btn-dashboard-outline ml-2"
                   >
@@ -275,7 +275,7 @@ const FormAddReadingQuestion = ({
         </Form>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default FormAddReadingQuestion
+export default FormAddReadingQuestion;

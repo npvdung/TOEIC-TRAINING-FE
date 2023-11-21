@@ -55,7 +55,7 @@ const DialogAvatar = ({ getValue = Function, setRefetch }) => {
       />
       <Modal
         title="Avatar"
-        open={isModalVisible}
+        visible={isModalVisible}
         onCancel={handleCancel}
         width={800}
         footer={false}

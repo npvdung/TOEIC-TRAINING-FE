@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Input, Form, Select, Modal, Table } from 'antd'
+import React, { useEffect, useState } from "react";
+import { Button, Input, Form, Select, Modal, Table } from "antd";
 import {
   questionLevel,
   questionType,
   QUESTION_READING,
   renderHTMLtoWord,
-} from '../../../../constants/dashboardConstants'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import './style.scss'
-import { Eye } from 'react-bootstrap-icons'
-import FormViewQuestion from '../question/FormViewQuestion'
+} from "../../../../constants/dashboardConstants";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "./style.scss";
+import { Eye } from "react-bootstrap-icons";
+import FormViewQuestion from "../question/FormViewQuestion";
 
-const { Option } = Select
+const { Option } = Select;
 
 const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
-  const [visible, setVisible] = useState(false)
-  const [questionList, setQuestionList] = useState([])
-  const [readingQuestion, setReadingQuestion] = useState(question)
-  const [form] = Form.useForm()
+  const [visible, setVisible] = useState(false);
+  const [questionList, setQuestionList] = useState([]);
+  const [readingQuestion, setReadingQuestion] = useState(question);
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    setReadingQuestion(question)
-    setQuestionList(question?.questionList)
-  }, [question])
+    setReadingQuestion(question);
+    setQuestionList(question?.questionList);
+  }, [question]);
 
   const columns = [
     {
-      title: 'Title',
-      dataIndex: 'questionTitle',
-      width: '50%',
-      key: 'questionTitle',
+      title: "Title",
+      dataIndex: "questionTitle",
+      width: "50%",
+      key: "questionTitle",
       render: (questionTitle) => (
         <div className="quest-content-html">
           {renderHTMLtoWord(questionTitle)}
@@ -38,10 +38,10 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
       ),
     },
     {
-      title: 'Content',
-      dataIndex: 'questionContent',
-      width: '40%',
-      key: 'questionContent',
+      title: "Content",
+      dataIndex: "questionContent",
+      width: "40%",
+      key: "questionContent",
       render: (questionContent) => (
         <div className="quest-content-html">
           {renderHTMLtoWord(questionContent)}
@@ -49,8 +49,8 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
       ),
     },
     {
-      title: '',
-      key: 'action',
+      title: "",
+      key: "action",
       render: (row) => {
         return (
           <div className="center flex-row">
@@ -60,14 +60,14 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
               setRefetch={setRefetch}
             />
           </div>
-        )
+        );
       },
-      width: '10%',
+      width: "10%",
     },
-  ]
+  ];
   const onReset = () => {
-    form.resetFields()
-  }
+    form.resetFields();
+  };
 
   return (
     <>
@@ -81,10 +81,10 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
       <Modal
         title="View reading question"
         centered
-        open={visible}
+        visible={visible}
         onCancel={() => {
-          setVisible(false)
-          onReset()
+          setVisible(false);
+          onReset();
         }}
         width={1000}
       >
@@ -108,7 +108,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                     <span className="required mt-2 mr-1">*</span> Type
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="questionType"
                     className=" form-add-item"
                   >
@@ -116,7 +116,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                       <Option value="">Choose type</Option>
                       {questionType.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -128,13 +128,13 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                     <span className="required mt-2 mr-1">*</span> Level
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="level"
                     className=" form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose level!',
+                        message: "Please choose level!",
                       },
                     ]}
                   >
@@ -142,7 +142,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                       <Option value="">Choose level</Option>
                       {questionLevel.map((item) => (
                         <Option key={item.id} value={item.id}>
-                          {item.name}{' '}
+                          {item.name}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -154,13 +154,13 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                     <span className="required mt-2 mr-1">*</span> Category
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="categoryId"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose category!',
+                        message: "Please choose category!",
                       },
                     ]}
                   >
@@ -168,7 +168,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                       <Option value={0}>Choose category</Option>
                       {categoriesList?.map((category) => (
                         <Option key={category.id} value={category.id}>
-                          {category.categoryName}{' '}
+                          {category.categoryName}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -180,7 +180,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                     <span className="mt-2 mr-1">Title</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="title"
                     className="form-add-item"
                   >
@@ -194,13 +194,13 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                     <span className="required mt-2 mr-1">*</span> Paragraph
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="paragraph"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input paragraph!',
+                        message: "Please input paragraph!",
                       },
                     ]}
                   >
@@ -224,7 +224,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                     <span className="mt-2 mr-1">Translate</span>
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="translate"
                     className="form-add-item"
                   >
@@ -253,7 +253,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                   <Table
                     columns={columns}
                     dataSource={questionList}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     pagination={false}
                   />
                 </div>
@@ -264,7 +264,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
                 <Form.Item>
                   <Button
                     onClick={() => {
-                      setVisible(false)
+                      setVisible(false);
                     }}
                     className="btn-dashboard-outline ml-2"
                   >
@@ -277,7 +277,7 @@ const FormViewReadingQuestion = ({ question, setRefetch, categoriesList }) => {
         </Form>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default FormViewReadingQuestion
+export default FormViewReadingQuestion;
