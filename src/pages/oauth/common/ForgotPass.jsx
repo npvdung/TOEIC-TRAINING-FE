@@ -4,7 +4,6 @@ import HvxButton from "../../../components/button/HvxButton";
 
 const ForgotPass = () => {
   const [isSentCode, setIsSentCode] = useState("default");
-  const [email, setEmail] = useState("");
   const checkEmail = async (values) => {
     const axios = require("axios");
     let data = JSON.stringify({
