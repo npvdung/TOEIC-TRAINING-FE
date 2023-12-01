@@ -15,4 +15,6 @@ export const ApiUrl = {
   results: baseUrl + "/results",
   user: baseUrl + "/users",
   examDetail: baseUrl + "/games/exam-detail",
+  group: baseUrl + "/groups",
+  joinGroup: baseUrl + "/groups/join",
 };
