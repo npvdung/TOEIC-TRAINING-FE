@@ -3,6 +3,7 @@ import { getToken } from "../../utils/storage";
 
 axios.interceptors.request.use((config) => {
   const token = getToken();
+  console.log(token);
   const tokenType = "Bearer";
   if (token) {
     config.headers.Authorization = `${tokenType} ${token}`;
