@@ -131,34 +131,4 @@ export const templateExam = [
     categoryId: 7,
     quantity: 1,
   },
-  {
-    type: 2,
-    level: 1,
-    categoryId: 8,
-    quantity: 1,
-  },
-  {
-    type: 2,
-    level: 2,
-    categoryId: 8,
-    quantity: 1,
-  },
-  {
-    type: 1,
-    level: 1,
-    categoryId: 9,
-    quantity: 3,
-  },
-  {
-    type: 1,
-    level: 1,
-    categoryId: 10,
-    quantity: 3,
-  },
-  {
-    type: 1,
-    level: 1,
-    categoryId: 27,
-    quantity: 2,
-  },
 ];
