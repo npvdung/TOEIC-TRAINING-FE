@@ -8,13 +8,33 @@ import "./style.scss";
 import { getUser } from "../../../services/userService";
 import { UserOutlined } from "@ant-design/icons";
 import { ROLE_ADMIN } from "../../../constants/dashboardConstants";
+import { getToken } from "../../../utils/storage";
+import axios from "axios";
 
 const Header = ({ refetch = false }) => {
   const user = getUserInfo();
   const history = useHistory();
   const [userInfo, setUserInfo] = useState();
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   useEffect(() => {
+    const token = getToken();
+    const avatar = getUserInfo().avatar;
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob", // Set responseType to 'blob'
+    };
+
+    axios
+      .get(
+        `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars/${avatar}`,
+        config
+      )
+      .then((response) => {
+        const url = URL.createObjectURL(response.data);
+        setAvatarUrl(url);
+      })
+      .catch((error) => console.error("Error:", error));
     getUser(
       user.id,
       (res) => setUserInfo(res.data.data),
@@ -54,7 +74,9 @@ const Header = ({ refetch = false }) => {
         <div className="header-logo">
           <img className="header-logo-img" src={Logo} alt="Logo" />
           <div className="text-logo">
-            <h1>TOEIC TRAINING</h1>
+            <h1 onClick={() => history.push(ROUTER_CONST.home)}>
+              TOEIC TRAINING
+            </h1>
           </div>
         </div>
 
@@ -64,7 +86,7 @@ const Header = ({ refetch = false }) => {
               {userInfo?.avatar ? (
                 <img
                   className="header-info-user-avatar"
-                  src={userInfo?.avatar}
+                  src={avatarUrl}
                   alt="avatar"
                 />
               ) : (

@@ -1,10 +1,10 @@
 import { checkDataInLocalStorage } from "./CheckData";
 
 export const saveUserInfo = (token, userInfo) => {
-  const UserInfo = JSON.stringify(userInfo)
+  const UserInfo = JSON.stringify(userInfo);
   localStorage.setItem("_token", token);
   localStorage.setItem("_currentUser", UserInfo);
-}
+};
 
 export const clearUserInfo = () => {
   localStorage.removeItem("_token");
@@ -50,10 +50,9 @@ export const getUsernameRemember = () => {
 };
 
 export const setToken = (token) => {
-  localStorage.setItem("_token", token)
-}
+  localStorage.setItem("_token", token);
+};
 
 export const setRefreshToken = (refreshToken) => {
-  localStorage.setItem("_refreshToken", refreshToken)
-}
-
+  localStorage.setItem("_refreshToken", refreshToken);
+};

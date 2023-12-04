@@ -3,20 +3,30 @@ import { getUser } from "../../services/userService";
 import { getUserInfo } from "../../utils/storage";
 import Header from "../home/header/Header";
 import "./style.scss";
-import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
+import {
+  ArrowLeftOutlined,
+  UserOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import { Tooltip, Button, Modal } from "antd";
 import DialogAvatar from "./DialogAvatar";
-
+import axios from "axios";
+import { getToken } from "../../utils/storage";
 import { ROUTER_CONST } from "../../config/paramsConst/RouterConst";
 import { useHistory } from "react-router-dom";
 import { TOOLTIP_POSITION } from "../../constants/dashboardConstants";
+import UpdateInfo from "./UpdateInfo";
+import ChangePassword from "./ChangePassword";
 
 const Profile = () => {
   const user = getUserInfo();
   const history = useHistory();
-  const [refetch, setRefetch] = useState(false);
+  const [refetch, setRefetch] = useState(0);
   const [userInfo, setUserInfo] = useState();
-  const [avatar, setAvatar] = useState();
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const [isOpenChangePass, setIsOpenChangePass] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
     getUser(
@@ -27,33 +37,37 @@ const Profile = () => {
       },
       (err) => console.log(err)
     );
-    // eslint-disable-next-line
-  }, []);
+    const token = getToken();
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob", // Set responseType to 'blob'
+    };
+    console.log("da lay dc", avatar);
+    axios
+      .get(
+        `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars/${avatar}`,
+        config
+      )
+      .then((response) => {
+        const url = URL.createObjectURL(response.data);
+        console.log(url);
+        setAvatarUrl(url);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, [refetch]);
 
-  // const handleUpdateInfo = () => {
-  //   if (avatar !== userInfo.avatar) {
-  //     updateUser(
-  //       { avatar: avatar, userId: user.id },
-  //       (res) => {
-  //         console.log(res);
-  //         setRefetch(Date.now());
-  //         notificationSuccess("Update success");
-  //       },
-  //       (err) => console.log(err)
-  //     );
-  //   } else {
-  //     notificationWarning("Please update info");
-  //   }
-  // };
   return (
-    <div className="profile">
+    <div className="profile" style={{ backgroundColor: "#f1f5f9" }}>
       <Header refetch={refetch} />
       <div className="profile-wrap">
-        <div className="profile-content col-md-6">
+        <div
+          className="profile-content col-md-6"
+          style={{ backgroundColor: "white" }}
+        >
           <Tooltip
             placement={TOOLTIP_POSITION}
             title={"Go back"}
-            color={"white"}
+            color={"black"}
           >
             <div
               className="icon-back"
@@ -66,10 +80,10 @@ const Profile = () => {
             </div>
           </Tooltip>
           <div className="pf-avatar center">
-            {avatar ? (
+            {avatarUrl ? (
               <div className="avt center avt-wrap">
                 {" "}
-                <img className="avt" src={avatar} alt="avt" />
+                <img className="avt" src={avatarUrl} alt="avt" />
               </div>
             ) : (
               <div className="avt center avt-wrap">
@@ -77,10 +91,7 @@ const Profile = () => {
                 <UserOutlined style={{ fontSize: 150 }} />
               </div>
             )}
-            <DialogAvatar
-              setRefetch={setRefetch}
-              getValue={(avt) => setAvatar(avt)}
-            />
+            <DialogAvatar setRefetch={setRefetch} setAvatar={setAvatar} />
           </div>
 
           <div className="pr-info">
@@ -92,16 +103,55 @@ const Profile = () => {
                 Last Name: <b>{userInfo?.lastName}</b>
               </span>
             </div>
+            <div className="justifySpaceBetween">
+              <span className="mt-2">
+                Email: <b>{userInfo?.email}</b>
+              </span>
+              <Tooltip
+                placement={TOOLTIP_POSITION}
+                title={"Change password"}
+                color={"black"}
+              >
+                <EditOutlined
+                  style={{ color: "#a3a3a3" }}
+                  className="mt-2 change-pass"
+                  onClick={() => setIsOpenChangePass(true)}
+                />
+              </Tooltip>
+            </div>
 
-            <p className="mt-2">
-              Email: <b>{userInfo?.email}</b>
-            </p>
+            <div className="pr-btn center ">
+              <Button
+                className="btn-update"
+                onClick={() => setIsOpenUpdateModal(true)}
+              >
+                Update profile
+              </Button>
+            </div>
           </div>
-
-          {/* <div className="pr-btn center">
-            <Button onClick={handleUpdateInfo}>Update</Button>
-          </div> */}
         </div>
+
+        <Modal
+          title="Update profile"
+          visible={isOpenUpdateModal}
+          onCancel={() => setIsOpenUpdateModal(false)}
+          footer={null}
+        >
+          <UpdateInfo
+            setIsOpenUpdateModal={setIsOpenUpdateModal}
+            isOpenUpdateModal={isOpenUpdateModal}
+            setRefetch={setRefetch}
+            refetch={refetch}
+          />
+        </Modal>
+        <Modal
+          title="Change password"
+          visible={isOpenChangePass}
+          onCancel={() => setIsOpenChangePass(false)}
+          footer={null}
+        >
+          <ChangePassword setIsOpenChangePass={setIsOpenChangePass} />
+        </Modal>
       </div>
     </div>
   );

@@ -1,13 +1,16 @@
-import React from 'react'
-import { LogoutOutlined } from '@ant-design/icons'
-import Logo from '../../../../assets/logo/logo.png'
-import { getUserInfo } from '../../../../utils/storage'
-import { useHistory } from 'react-router-dom'
-import { ROUTER_CONST } from '../../../../config/paramsConst/RouterConst'
+import React from "react";
+import { LogoutOutlined } from "@ant-design/icons";
+import Logo from "../../../../assets/logo/logo.png";
+import { getUserInfo } from "../../../../utils/storage";
+import { useHistory } from "react-router-dom";
+import { ROUTER_CONST } from "../../../../config/paramsConst/RouterConst";
+import { useState, useEffect } from "react";
+import { getToken } from "../../../../utils/storage";
+import axios from "axios";
 
 const HeaderDashboard = () => {
-  const userInfo = getUserInfo()
-  const history = useHistory()
+  const userInfo = getUserInfo();
+  const history = useHistory();
 
   return (
     <div className="header-dashboard">
@@ -16,26 +19,29 @@ const HeaderDashboard = () => {
           <div
             className="header-left"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
             }}
           >
             <img
               className="header-logo-img"
-              style={{ width: '60px' }}
+              style={{ width: "60px" }}
               src={Logo}
               alt="Logo"
+              onClick={() => history.push(ROUTER_CONST.home)}
             />
             <div className="text-logo">
-              <h1>TOEIC TRAINING</h1>
+              <h1 onClick={() => history.push(ROUTER_CONST.home)}>
+                TOEIC TRAINING
+              </h1>
             </div>
           </div>
 
           <div className="header-row">
             <span className="username">
-              Hello:{' '}
+              Hello:{" "}
               <b className="name">
                 {userInfo?.firstName} {userInfo?.lastName}
               </b>
@@ -50,7 +56,7 @@ const HeaderDashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeaderDashboard
+export default HeaderDashboard;

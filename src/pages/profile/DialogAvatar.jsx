@@ -1,99 +1,102 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Avatar, Button, Modal, Upload } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  UploadOutlined,
+  LinkOutlined,
+} from "@ant-design/icons";
 import {
   notificationSuccess,
   notificationWarning,
 } from "../../utils/Notification";
 import { updateUser } from "../../services/userService";
-import { getUserInfo } from "../../utils/storage";
+import { getToken, getUserInfo } from "../../utils/storage";
+import { message } from "antd";
+import axios from "axios";
 
-const DialogAvatar = ({ getValue = Function, setRefetch }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [avtSelected, setAvtSelected] = useState();
-  const user = getUserInfo();
+const DialogAvatar = ({ setAvatar, setRefetch }) => {
+  const [isModalUpload, setIsModalUpload] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const token = getToken();
 
-  const avt1 = "https://i.ibb.co/09jdv0q/avt1.jpg";
-  const avt2 = "https://i.ibb.co/5GHSBCC/avt2.jpg";
-  const avt3 = "https://i.ibb.co/28m9x51/avt3.jpg";
-  const avt4 = "https://i.ibb.co/x56ctv3/avt4.jpg";
+  // const beforeUpload = (file) => {
+  // const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
+  //   if (!isImage) {
+  //     message.error(
+  //       "Chỉ được tải lên các file ảnh có đuôi jpg, jpeg, png, gif!"
+  //     );
+  //   }
+  //   return isImage;
+  // };
 
-  const showModal = () => {
-    setIsModalVisible(true);
+  const uploadProps = {
+    name: "file",
+    action: `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars`,
+    beforeUpload: (file) => {
+      const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
+      if (!isImage) {
+        message.error("Bạn chỉ có thể tải lên tệp hình ảnh!");
+      }
+      return isImage;
+    },
+    onChange(info) {
+      if (info.file.status === "done") {
+        // Get this url from response in real world.
+        const file = info.file.originFileObj;
+        const formData = new FormData();
+        formData.append("file", file);
+        axios
+          .post(
+            `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars`,
+            formData,
+            {
+              headers: {
+                headers: { Authorization: `Bearer ${token}` },
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+          .then((response) => {
+            message.success(
+              `Tệp ${info.file.name} đã được tải lên thành công.`
+            );
+          })
+          .catch(() => {
+            message.error(`Tệp ${info.file.name} tải lên thất bại.`);
+          });
+      } else if (info.file.status === "error") {
+        message.error(`Tệp ${info.file.name} tải lên thất bại.`);
+      }
+    },
   };
 
-  const handleOk = () => {
-    if (avtSelected) {
-      setIsModalVisible(false);
-      getValue(avtSelected);
-      updateUser(
-        { avatar: avtSelected, userId: user.id },
-        (res) => {
-          console.log(res);
-          setRefetch(Date.now());
-          notificationSuccess("Update success");
-        },
-        (err) => console.log(err)
-      );
-    } else {
-      notificationWarning("Please choose avatar");
-    }
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleChooseAvt = (value) => {
-    setAvtSelected(value);
-  };
   return (
     <div>
-      <CameraOutlined
-        onClick={showModal}
-        style={{ fontSize: 30, marginTop: 10, cursor: "pointer" }}
-      />
+      <Button
+        onClick={() => setIsModalUpload(true)}
+        style={{ border: "none", cursor: "pointer" }}
+        icon={<CameraOutlined style={{ fontSize: 30, marginTop: 10 }} />}
+      ></Button>
       <Modal
-        title="Avatar"
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        width={800}
-        footer={false}
+        title="Update avatar"
+        visible={isModalUpload}
+        onCancel={() => setIsModalUpload(false)}
+        // onOk={handleSubmit}
       >
-        <div className="avt-group justifySpaceBetween">
-          <div onClick={() => handleChooseAvt(avt1)} id={avt1}>
-            <img
-              className={`avt-choose ${avtSelected === avt1 && "active-avt"}`}
-              src={avt1}
-              alt="avt1"
-            />
-          </div>
-          <div onClick={() => handleChooseAvt(avt2)} id={avt2}>
-            <img
-              className={`avt-choose ${avtSelected === avt2 && "active-avt"}`}
-              src={avt2}
-              alt="avt2"
-            />
-          </div>
-          <div onClick={() => handleChooseAvt(avt3)} id={avt3}>
-            <img
-              className={`avt-choose ${avtSelected === avt3 && "active-avt"}`}
-              src={avt3}
-              alt="avt3"
-            />
-          </div>
-          <div onClick={() => handleChooseAvt(avt4)} id={avt4}>
-            <img
-              className={`avt-choose ${avtSelected === avt4 && "active-avt"}`}
-              src={avt4}
-              alt="avt4"
-            />
-          </div>
-        </div>
-        <div className="center">
-          {" "}
-          <Button onClick={handleOk}>Ok</Button>
-        </div>
+        <Upload {...uploadProps}>
+          <Button icon={<UploadOutlined />}>Upload</Button>
+        </Upload>
+        {imageUrl && (
+          <p style={{ marginTop: 8 }}>
+            <LinkOutlined /> {imageUrl}
+          </p>
+        )}
       </Modal>
     </div>
   );

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ForgotPass from "./common/ForgotPass";
 import Login from "./common/Login";
 import Register from "./common/Register";
 import "./style.scss";
