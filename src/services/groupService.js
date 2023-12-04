@@ -44,3 +44,17 @@ export const getUsersByGroup = async (id, successCallback, errorCallback) => {
     errorCallback
   );
 };
+
+export const deleteUserFromGroup = async (
+  groupId,
+  userId,
+  successCallback,
+  errorCallback
+) => {
+  await deleteRequest(
+    ApiUrl.group + `/${groupId}/users/${userId}`,
+    {},
+    successCallback,
+    errorCallback
+  );
+};

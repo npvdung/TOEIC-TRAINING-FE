@@ -3,8 +3,8 @@ import {
   getRequest,
   postRequest,
   putRequest,
-} from '../config/api/apiCaller'
-import { ApiUrl } from '../config/api/apiConst'
+} from "../config/api/apiCaller";
+import { ApiUrl } from "../config/api/apiConst";
 
 export const getExamListByCategory = async (
   categoryId,
@@ -16,16 +16,21 @@ export const getExamListByCategory = async (
     {},
     successCallback,
     errorCallback
-  )
-}
+  );
+};
 
-export const getExamList = async (successCallback, errorCallback) => {
-  await getRequest(ApiUrl.exam, {}, successCallback, errorCallback)
-}
+export const getExamList = async (groupId, successCallback, errorCallback) => {
+  await getRequest(
+    groupId ? ApiUrl.exam + `?groupdId=${groupId}` : ApiUrl.exam,
+    {},
+    successCallback,
+    errorCallback
+  );
+};
 
 export const createExam = async (params, successCallback, errorCallback) => {
-  await postRequest(ApiUrl.exam, params, successCallback, errorCallback)
-}
+  await postRequest(ApiUrl.exam, params, successCallback, errorCallback);
+};
 
 export const removeExam = async (examId, successCallback, errorCallback) => {
   await deleteRequest(
@@ -33,8 +38,8 @@ export const removeExam = async (examId, successCallback, errorCallback) => {
     {},
     successCallback,
     errorCallback
-  )
-}
+  );
+};
 
 export const updateExam = async (params, successCallback, errorCallback) => {
   await putRequest(
@@ -42,8 +47,8 @@ export const updateExam = async (params, successCallback, errorCallback) => {
     params,
     successCallback,
     errorCallback
-  )
-}
+  );
+};
 
 export const generateRandomExam = async (
   params,
@@ -51,9 +56,9 @@ export const generateRandomExam = async (
   errorCallback
 ) => {
   await postRequest(
-    ApiUrl.exam + '/generate-random-exam',
+    ApiUrl.exam + "/generate-random-exam",
     params,
     successCallback,
     errorCallback
-  )
-}
+  );
+};

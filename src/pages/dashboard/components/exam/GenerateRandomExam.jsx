@@ -19,6 +19,7 @@ const GenerateRandomExam = ({
   setOpenGenerateRandomExam,
   categoriesList,
   setRefetch,
+  groupId,
 }) => {
   const [form] = Form.useForm();
   const [listOrder, setListOrder] = useState(templateExam);
@@ -171,6 +172,7 @@ const GenerateRandomExam = ({
         }}
         setRefetch={setRefetch}
         totalPoint={totalPoint}
+        groupId={groupId}
       />
       <Modal
         title="Generate Random Exam"

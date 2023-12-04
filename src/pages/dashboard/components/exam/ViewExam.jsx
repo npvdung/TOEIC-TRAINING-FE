@@ -170,7 +170,7 @@ const ViewQuestion = ({ question, stt }) => {
 };
 
 const ViewExam = (props) => {
-  const { show, onClose, exam, setRefetch, totalPoint } = props;
+  const { show, onClose, exam, setRefetch, totalPoint, groupId } = props;
   const userInfo = getUserInfo();
   const [categoriesList, setCategoriesList] = useState([]);
   const [form] = Form.useForm();
@@ -186,6 +186,7 @@ const ViewExam = (props) => {
         listQuestion: JSON.stringify(
           exam?.questionList?.map((question) => question.id)
         ),
+        groupId,
       };
       createExam(
         newExamValue,

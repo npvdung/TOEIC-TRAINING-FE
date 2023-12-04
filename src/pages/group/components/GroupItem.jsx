@@ -23,7 +23,8 @@ export const GroupItem = ({
         <Button
           type="primary"
           style={{ borderRadius: "10px" }}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             handleView(groupId);
           }}
         >
@@ -32,7 +33,8 @@ export const GroupItem = ({
         <Button
           type="danger"
           style={{ borderRadius: "10px" }}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             handleDelete(groupId);
           }}
         >

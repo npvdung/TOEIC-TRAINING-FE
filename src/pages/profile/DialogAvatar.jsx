@@ -12,68 +12,70 @@ import {
   notificationWarning,
 } from "../../utils/Notification";
 import { updateUser } from "../../services/userService";
-import { getToken, getUserInfo } from "../../utils/storage";
+import { getUserInfo } from "../../utils/storage";
 import { message } from "antd";
-import axios from "axios";
+import fs from "fs";
+import path from "path";
+import { getToken } from "../../utils/storage";
 
-const DialogAvatar = ({ setAvatar, setRefetch }) => {
+const DialogAvatar = ({ setRefetch }) => {
   const [isModalUpload, setIsModalUpload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  const [previewVisible, setPreviewVisible] = useState(false);
+  const [avatarFile, setAvatarFile] = useState();
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
   const token = getToken();
+  const beforeUpload = (file) => {
+    const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
+    if (!isImage) {
+      message.error(
+        "Chỉ được tải lên các file ảnh có đuôi jpg, jpeg, png, gif!"
+      );
+    }
+    return isImage;
+  };
 
-  // const beforeUpload = (file) => {
-  // const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
-  //   if (!isImage) {
-  //     message.error(
-  //       "Chỉ được tải lên các file ảnh có đuôi jpg, jpeg, png, gif!"
-  //     );
-  //   }
-  //   return isImage;
-  // };
+  const handleChange = (info) => {
+    console.log(info.file, "truoc");
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+    if (info.file.originFileObj !== null) {
+      setLoading(false);
+      setAvatarFile(info.file.originFileObj); // Lưu đối tượng File thay vì tên tệp
+      // setAvatar(URL.createObjectURL(info.file.originFileObj)); // Tạo URL cho tệp để hiển thị
+    }
+    console.log(info.file);
+  };
 
-  const uploadProps = {
-    name: "file",
-    action: `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars`,
-    beforeUpload: (file) => {
-      const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
-      if (!isImage) {
-        message.error("Bạn chỉ có thể tải lên tệp hình ảnh!");
-      }
-      return isImage;
-    },
-    onChange(info) {
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-        const file = info.file.originFileObj;
-        const formData = new FormData();
-        formData.append("file", file);
-        axios
-          .post(
-            `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars`,
-            formData,
-            {
-              headers: {
-                headers: { Authorization: `Bearer ${token}` },
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          )
-          .then((response) => {
-            message.success(
-              `Tệp ${info.file.name} đã được tải lên thành công.`
-            );
-          })
-          .catch(() => {
-            message.error(`Tệp ${info.file.name} tải lên thất bại.`);
-          });
-      } else if (info.file.status === "error") {
-        message.error(`Tệp ${info.file.name} tải lên thất bại.`);
-      }
-    },
+  const handleSubmit = () => {
+    const axios = require("axios");
+    const FormData = require("form-data");
+
+    let data = new FormData();
+    data.append("file", avatarFile); // Truyền đối tượng File vào FormData
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:8888/users/profile/avatars",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...data.getHeaders(),
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -87,9 +89,39 @@ const DialogAvatar = ({ setAvatar, setRefetch }) => {
         title="Update avatar"
         visible={isModalUpload}
         onCancel={() => setIsModalUpload(false)}
-        // onOk={handleSubmit}
+        onOk={handleSubmit}
       >
-        <Upload {...uploadProps}>
+        <Upload
+          action={false}
+          name="avatar"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+          customRequest={({ file, onSuccess, onError }) => {
+            const axios = require("axios");
+            let data = new FormData();
+            data.append("file", file); // Truyền đối tượng File vào FormData
+
+            let config = {
+              method: "post",
+              maxBodyLength: Infinity,
+              url: "http://localhost:8888/users/profile/avatars",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              data: data,
+            };
+
+            axios
+              .request(config)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }}
+        >
           <Button icon={<UploadOutlined />}>Upload</Button>
         </Upload>
         {imageUrl && (

@@ -1,54 +1,55 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Input, Form, Spin, Select } from 'antd'
-import { getUserInfo } from '../../../../utils/storage'
-import { fetchCategories } from '../../../../services/categoriesService'
+import React, { useEffect, useState } from "react";
+import { Button, Input, Form, Spin, Select } from "antd";
+import { getUserInfo } from "../../../../utils/storage";
+import { fetchCategories } from "../../../../services/categoriesService";
 
-import FormChooseQuestion from './FormChooseQuestion'
-import { ClockCircleOutlined } from '@ant-design/icons'
-import QuestionItem from './QuestionItem'
-import { createExam } from '../../../../services/examService'
+import FormChooseQuestion from "./FormChooseQuestion";
+import { ClockCircleOutlined } from "@ant-design/icons";
+import QuestionItem from "./QuestionItem";
+import { createExam } from "../../../../services/examService";
 import {
   notificationSuccess,
   notificationWarning,
-} from '../../../../utils/Notification'
+} from "../../../../utils/Notification";
 
-const { Option } = Select
+const { Option } = Select;
 
-const FormAddExam = ({ setModeExam, refetch }) => {
-  const userInfo = getUserInfo()
-  const [loading, setLoading] = useState(false)
-  const [selectedQuestionList, setSelectedQuestionList] = useState([])
-  const [totalPoint, setTotalPoint] = useState(0)
+const FormAddExam = ({ setModeExam, refetch, groupId }) => {
+  const userInfo = getUserInfo();
+  const [loading, setLoading] = useState(false);
+  const [selectedQuestionList, setSelectedQuestionList] = useState([]);
+  const [totalPoint, setTotalPoint] = useState(0);
 
-  const [questionCategorySelected, setQuestionCategorySelected] = useState(null)
+  const [questionCategorySelected, setQuestionCategorySelected] =
+    useState(null);
 
-  const [categoriesList, setCategoriesList] = useState([])
+  const [categoriesList, setCategoriesList] = useState([]);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetchCategories((res) => {
-      setCategoriesList(res.data.data)
-      setLoading(false)
-    })
-  }, [])
+      setCategoriesList(res.data.data);
+      setLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     if (selectedQuestionList?.length) {
-      let tPoint = 0
-      selectedQuestionList.forEach((item) => (tPoint += item.questionPoint))
-      setTotalPoint(tPoint)
+      let tPoint = 0;
+      selectedQuestionList.forEach((item) => (tPoint += item.questionPoint));
+      setTotalPoint(tPoint);
     }
     // eslint-disable-next-line
-  }, [selectedQuestionList])
+  }, [selectedQuestionList]);
 
   const handleRemoveQuestionSelected = (questId) => {
     if (questId) {
       const newSelectedQuestionList = selectedQuestionList.filter(
         (question) => question.id !== questId
-      )
-      setSelectedQuestionList(newSelectedQuestionList)
+      );
+      setSelectedQuestionList(newSelectedQuestionList);
     }
-  }
+  };
 
   const handleAddExam = (value) => {
     if (value) {
@@ -61,24 +62,25 @@ const FormAddExam = ({ setModeExam, refetch }) => {
         listQuestion: JSON.stringify(
           selectedQuestionList?.map((question) => question.id)
         ),
-      }
-      setLoading(true)
+        groupId,
+      };
+      setLoading(true);
       createExam(
         newExamValue,
         () => {
-          notificationSuccess('create new exam success!')
-          setModeExam('view')
-          refetch(Date.now())
-          setLoading(false)
+          notificationSuccess("create new exam success!");
+          setModeExam("view");
+          refetch(Date.now());
+          setLoading(false);
         },
         (err) => {
-          console.log(err.response)
-          setLoading(false)
-          notificationWarning('Oop!!, Some thing went wrong!')
+          console.log(err.response);
+          setLoading(false);
+          notificationWarning("Oop!!, Some thing went wrong!");
         }
-      )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -94,17 +96,17 @@ const FormAddExam = ({ setModeExam, refetch }) => {
                     <span className="required mt-2 mr-1">*</span> Name
                   </label>
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="examName"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your question name!',
+                        message: "Please input your question name!",
                       },
                       {
                         max: 50,
-                        message: 'Question name too long!',
+                        message: "Question name too long!",
                       },
                     ]}
                   >
@@ -118,25 +120,25 @@ const FormAddExam = ({ setModeExam, refetch }) => {
                   </label>
 
                   <Form.Item
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="examCategory"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please choose category!',
+                        message: "Please choose category!",
                       },
                     ]}
                     initialValue={questionCategorySelected}
                   >
                     <Select
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       onChange={(value) => setQuestionCategorySelected(value)}
                     >
                       <Option value={null}>Choose category</Option>
                       {categoriesList?.map((category) => (
                         <Option key={category.id} value={category.id}>
-                          {category.categoryName}{' '}
+                          {category.categoryName}{" "}
                         </Option>
                       ))}
                     </Select>
@@ -144,17 +146,17 @@ const FormAddExam = ({ setModeExam, refetch }) => {
                 </div>
                 <div className="col-md-2">
                   <label className="quest-label" htmlFor="questionType">
-                    <span className="required mt-2 mr-1">*</span>{' '}
+                    <span className="required mt-2 mr-1">*</span>{" "}
                     <ClockCircleOutlined className="mr-2" /> Time (minutes)
                   </label>
                   <Form.Item
-                    style={{ width: '150px' }}
+                    style={{ width: "150px" }}
                     name="totalTime"
                     className="form-add-item"
                     rules={[
                       {
                         required: true,
-                        message: 'Please enter time!',
+                        message: "Please enter time!",
                       },
                     ]}
                   >
@@ -178,7 +180,7 @@ const FormAddExam = ({ setModeExam, refetch }) => {
                     </Form.Item>
                     <Form.Item>
                       <Button
-                        onClick={() => setModeExam('view')}
+                        onClick={() => setModeExam("view")}
                         className="btn-dashboard-outline ml-3"
                       >
                         Close
@@ -208,7 +210,7 @@ const FormAddExam = ({ setModeExam, refetch }) => {
         </Form>
       </Spin>
     </>
-  )
-}
+  );
+};
 
-export default FormAddExam
+export default FormAddExam;

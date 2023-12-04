@@ -4,32 +4,38 @@ import Content from "../home/midContent/Content";
 import Rate from "../home/rate/Rate";
 import Header from "../home/header/Header";
 import "./group-detail.scss";
-import { useEffect, useState } from "react";
-import { fetchCategories } from "../../services/categoriesService";
+import { GroupMenu } from "./components/GroupMenu";
+import { useMemo, useState } from "react";
+import QuestionDashboard from "../dashboard/components/question/QuestionDashboard";
+import ReadingQuestionDashboard from "../dashboard/components/readingQuestion/ReadingQuestionDashboard";
+import ExamDashboard from "../dashboard/components/exam/ExamDashboard";
 
 export const GroupDetail = () => {
   let { id } = useParams();
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [currentMenu, setCurrentMenu] = useState(0);
-  useEffect(() => {
-    fetchCategories((res) => {
-      setCategoriesList(res?.data?.data);
-      setCurrentMenu(res?.data?.data[0].id);
-    });
-  }, []);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const content = useMemo(() => {
+    switch (selectedIndex) {
+      case 0:
+        return <QuestionDashboard />;
+      case 1:
+        return <ReadingQuestionDashboard />;
+      case 2:
+        return <ExamDashboard groupId={id} />;
+      default:
+        return <></>;
+    }
+  }, [selectedIndex, id]);
 
   return (
     <div className="group-detail-page">
       <Header />
-      <div className="content">
-        <div className="row">
-          <Sidebar
-            categoriesList={categoriesList}
-            setCurrentMenu={currentMenu}
-          />
-          <Content currentMenu={0} />
-          <Rate />
-        </div>
+      <div className="group-detail">
+        <GroupMenu
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+        />
+        <div className="content">{content}</div>
       </div>
     </div>
   );

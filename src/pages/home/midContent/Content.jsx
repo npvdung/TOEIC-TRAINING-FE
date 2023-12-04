@@ -1,45 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { Input, Spin } from 'antd'
-import Lesson from './Lesson'
-import { getExamListByCategory } from '../../../services/examService'
-import './style.scss'
+import React, { useEffect, useState } from "react";
+import { Button, Input, Spin } from "antd";
+import Lesson from "./Lesson";
+import { getExamListByCategory } from "../../../services/examService";
+import "./style.scss";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
-const { Search } = Input
+const { Search } = Input;
 
 const Content = ({ currentMenu }) => {
-  const [examList, setExamList] = useState()
-  const [examListClone, setExamListClone] = useState()
-  const [loadingData, setLoadingData] = useState(true)
+  const [examList, setExamList] = useState();
+  const [examListClone, setExamListClone] = useState();
+  const [loadingData, setLoadingData] = useState(true);
+
+  let history = useHistory();
 
   useEffect(() => {
-    setLoadingData(true)
+    setLoadingData(true);
     getExamListByCategory(
       currentMenu,
       (res) => {
-        setExamList(res.data.data)
-        setExamListClone(res.data.data)
-        setLoadingData(false)
+        setExamList(res.data.data);
+        setExamListClone(res.data.data);
+        setLoadingData(false);
       },
       getError
-    )
+    );
     // eslint-disable-next-line
-  }, [currentMenu])
+  }, [currentMenu]);
 
   const handleSearchExams = (value) => {
     if (!value.trim() || !value?.length) {
-      setExamList(examListClone)
+      setExamList(examListClone);
     } else {
       const newExams = examListClone.filter((exam) =>
         exam?.examName.toLowerCase().match(value.trim().toLowerCase())
-      )
-      setExamList(newExams)
+      );
+      setExamList(newExams);
     }
-  }
+  };
 
   const getError = (err) => {
-    console.log(err)
-    setLoadingData(false)
-  }
+    console.log(err);
+    setLoadingData(false);
+  };
 
   return (
     <div className="col-md-6 midContent">
@@ -62,9 +65,20 @@ const Content = ({ currentMenu }) => {
                 placeholder="Search..."
                 allowClear
                 onSearch={handleSearchExams}
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 className="search-input"
               />
+            </div>
+            <div className="col-md-6">
+              <Button
+                type="primary"
+                style={{ height: "40px" }}
+                onClick={() => {
+                  history.push("/group");
+                }}
+              >
+                Group
+              </Button>
             </div>
           </div>
         </div>
@@ -80,10 +94,10 @@ const Content = ({ currentMenu }) => {
                     totalPoint={exam.totalPoint}
                     totalTime={exam.totalTime}
                   />
-                )
+                );
               })
             ) : (
-              <div className="center" style={{ width: '100%' }}>
+              <div className="center" style={{ width: "100%" }}>
                 No data
               </div>
             )}
@@ -94,7 +108,7 @@ const Content = ({ currentMenu }) => {
         </div> */}
       </Spin>
     </div>
-  )
-}
+  );
+};
 
-export default Content
+export default Content;

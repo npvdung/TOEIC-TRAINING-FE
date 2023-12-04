@@ -4,6 +4,7 @@ import "./group.scss";
 import {
   createGroup,
   deleteGroup,
+  deleteUserFromGroup,
   getGroupsByUserId,
   getUsersByGroup,
   joinGroup,
@@ -20,6 +21,7 @@ export const GroupPage = () => {
   const [groups, setGroups] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
+  const [selectedId, setSelectedId] = useState(0);
   const handleCreateGroup = () => {
     createGroup({ name: newGroupName, ownerId: userInfo.id }, () => {
       getGroups();
@@ -53,7 +55,14 @@ export const GroupPage = () => {
 
   const handleViewGroup = (id) => {
     getUserByGroup(id);
+    setSelectedId(id);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteUser = (id) => {
+    deleteUserFromGroup(selectedId, id, () => {
+      getUserByGroup(selectedId);
+    });
   };
 
   useEffect(() => {
@@ -110,6 +119,7 @@ export const GroupPage = () => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         users={users}
+        handleDeleteUser={handleDeleteUser}
       />
     </div>
   );

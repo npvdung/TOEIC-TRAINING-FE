@@ -29,23 +29,22 @@ const Profile = () => {
   const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
-    getUser(
-      user.id,
-      (res) => {
-        setUserInfo(res.data.data);
-        setAvatar(res.data.data.avatar);
-      },
-      (err) => console.log(err)
-    );
+    // getUser(
+    //   user.id,
+    //   (res) => {
+    //     setUserInfo(res.data.data);
+    //     setAvatar(res.data.data.avatar);
+    //   },
+    //   (err) => console.log(err)
+    // );
     const token = getToken();
     const config = {
       headers: { Authorization: `Bearer ${token}` },
       responseType: "blob", // Set responseType to 'blob'
     };
-    console.log("da lay dc", avatar);
     axios
       .get(
-        `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars/${avatar}`,
+        `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars/${user.avatar}`,
         config
       )
       .then((response) => {
@@ -91,7 +90,7 @@ const Profile = () => {
                 <UserOutlined style={{ fontSize: 150 }} />
               </div>
             )}
-            <DialogAvatar setRefetch={setRefetch} setAvatar={setAvatar} />
+            <DialogAvatar setRefetch={setRefetch} />
           </div>
 
           <div className="pr-info">

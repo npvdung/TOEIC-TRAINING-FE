@@ -1,6 +1,11 @@
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 
-export const GroupUserModal = ({ isModalOpen, setIsModalOpen, users }) => {
+export const GroupUserModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  users,
+  handleDeleteUser,
+}) => {
   return (
     <Modal
       title="Users"
@@ -10,8 +15,20 @@ export const GroupUserModal = ({ isModalOpen, setIsModalOpen, users }) => {
       }}
       footer={null}
     >
-      {users.map((item) => {
-        return <p>{`${item.firstName} ${item.lastName}`}</p>;
+      {users.map((user) => {
+        return (
+          <div className="user-in-group-item">
+            <span>{`${user.firstName} ${user.lastName}`}</span>
+            <Button
+              type="danger"
+              onClick={() => {
+                handleDeleteUser(user.id);
+              }}
+            >
+              Delete
+            </Button>
+          </div>
+        );
       })}
     </Modal>
   );
