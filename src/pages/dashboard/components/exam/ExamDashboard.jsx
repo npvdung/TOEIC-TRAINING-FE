@@ -208,17 +208,6 @@ const ExamDashboard = ({ groupId }) => {
                 <div className="add-field">
                   <div className="col-md-6">
                     <Button
-                      onClick={handleGoToAddExam}
-                      className="btn-dashboard"
-                    >
-                      <PlusCircleOutlined />
-                      New Exam
-                    </Button>
-                  </div>
-                </div>
-                <div className="add-field">
-                  <div className="col-md-6">
-                    <Button
                       onClick={() => setOpenGenerateRandomExam(true)}
                       className="btn-dashboard"
                     >
@@ -229,23 +218,6 @@ const ExamDashboard = ({ groupId }) => {
                 </div>
                 <div className="col-lg-8">
                   <div className="align-item-center">
-                    <div className="col-md-6 filter-input pl-0">
-                      <Select
-                        defaultValue={0}
-                        value={currentCategorySelected}
-                        style={{ width: "100%" }}
-                        onChange={(category) =>
-                          setCurrentCategorySelected(category)
-                        }
-                      >
-                        <Option value={0}>Choose category</Option>
-                        {categoriesList?.map((category) => (
-                          <Option key={category.id} value={category.id}>
-                            {category.categoryName}{" "}
-                          </Option>
-                        ))}
-                      </Select>
-                    </div>
                     <div className="col-md-6 filter-input pl-0">
                       <Search
                         value={examNameSearch}

@@ -1,9 +1,40 @@
 import React from "react";
 import { Modal, Form, Input } from "antd";
 import HvxButton from "../../components/button/HvxButton";
+import { getUserInfo } from "../../utils/storage";
+import { notificationErr, notificationSuccess } from "../../utils/Notification";
 
 export default function ChangePassword({ setIsOpenChangePass }) {
-  const onFinish = () => {};
+  const user = getUserInfo();
+  const onFinish = (values) => {
+    const axios = require("axios");
+    let data = JSON.stringify({
+      oldPassword: values.oldPassword,
+      newPassword: values.newPassword,
+    });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${process.env.REACT_APP_BASE_API_URL}/users/change-password/${user.id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        setIsOpenChangePass(false);
+        notificationSuccess("Password updated successfully");
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+        notificationErr("Your old password is not match");
+      });
+  };
   const layout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 16 },

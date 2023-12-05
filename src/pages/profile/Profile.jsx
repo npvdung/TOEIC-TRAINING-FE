@@ -29,30 +29,30 @@ const Profile = () => {
   const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
-    // getUser(
-    //   user.id,
-    //   (res) => {
-    //     setUserInfo(res.data.data);
-    //     setAvatar(res.data.data.avatar);
-    //   },
-    //   (err) => console.log(err)
-    // );
-    const token = getToken();
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-      responseType: "blob", // Set responseType to 'blob'
-    };
-    axios
-      .get(
-        `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars/${user.avatar}`,
-        config
-      )
-      .then((response) => {
-        const url = URL.createObjectURL(response.data);
-        console.log(url);
-        setAvatarUrl(url);
-      })
-      .catch((error) => console.error("Error:", error));
+    getUser(
+      user.id,
+      (res) => {
+        setUserInfo(res.data.data);
+        setAvatar(res.data.data.avatar);
+        const token = getToken();
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: "blob", // Set responseType to 'blob'
+        };
+        console.log(avatar, "new ava");
+        axios
+          .get(
+            `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars/${res.data.data.avatar}`,
+            config
+          )
+          .then((response) => {
+            const url = URL.createObjectURL(response.data);
+            setAvatarUrl(url);
+          })
+          .catch((error) => console.error("Error:", error));
+      },
+      (err) => console.log(err)
+    );
   }, [refetch]);
 
   return (

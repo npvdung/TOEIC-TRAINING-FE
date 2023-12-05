@@ -139,27 +139,6 @@ const GenerateRandomExam = ({
       width: "10%",
       key: "quantity",
     },
-    {
-      title: "",
-      key: "action",
-      render: (row) => {
-        return (
-          <div className="center flex-row">
-            <Button
-              onClick={() => handleEditOrder(row)}
-              title="Edit"
-              className="mr-2"
-            >
-              <PencilSquare />
-            </Button>
-            <Button onClick={() => handleDeleteOrder(row)} title="Delete">
-              <Trash />
-            </Button>
-          </div>
-        );
-      },
-      width: "10%",
-    },
   ];
   return (
     <>
@@ -205,124 +184,9 @@ const GenerateRandomExam = ({
           }}
         >
           <div className="form-add-question">
-            <div className="col-md-12">
-              <div className="row">
-                {/* type */}
-                <div className="col-md-6">
-                  <label className="quest-label" htmlFor="questionType">
-                    <span className="required mt-2 mr-1">*</span> Type
-                  </label>
-                  <Form.Item
-                    style={{ width: "100%" }}
-                    name="type"
-                    className=" form-add-item"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please choose type!",
-                      },
-                    ]}
-                  >
-                    <Select>
-                      <Option value="">Choose type</Option>
-                      {questionType.map((item) => (
-                        <Option key={item.id} value={item.id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </div>
-                {/* level */}
-                <div className="col-md-6">
-                  <label className="quest-label" htmlFor="level">
-                    <span className="required mt-2 mr-1">*</span> Level
-                  </label>
-                  <Form.Item
-                    style={{ width: "100%" }}
-                    name="level"
-                    className=" form-add-item"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please choose level!",
-                      },
-                    ]}
-                  >
-                    <Select>
-                      <Option value="">Choose level</Option>
-                      {questionLevel.map((item) => (
-                        <Option key={item.id} value={item.id}>
-                          {item.name}{" "}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </div>
-                {/* category */}
-                <div className="col-md-6">
-                  <label className="quest-label" htmlFor="categoryId">
-                    <span className="required mt-2 mr-1">*</span> Category
-                  </label>
-                  <Form.Item
-                    style={{ width: "100%" }}
-                    name="categoryId"
-                    className="form-add-item"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please choose category!",
-                      },
-                    ]}
-                  >
-                    <Select>
-                      <Option value="">Choose category</Option>
-                      {categoriesList?.map((category) => (
-                        <Option key={category.id} value={category.id}>
-                          {category.categoryName}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                {/* quantity */}
-                <div className="col-md-6">
-                  <label className="quest-label" htmlFor="quantity">
-                    <span className="required mt-2 mr-1">*</span> Quantity
-                  </label>
-                  <Form.Item
-                    style={{ width: "100%" }}
-                    name="quantity"
-                    className="form-add-item"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter quantity!",
-                      },
-                    ]}
-                  >
-                    <InputNumber
-                      style={{
-                        width: "100%",
-                      }}
-                    />
-                  </Form.Item>
-                </div>
-              </div>
-            </div>
+            <div className="col-md-12"></div>
           </div>
-          <div>
-            <div className="col-md-4 mt-1">
-              <div className="row pl-2">
-                <Form.Item>
-                  <Button className="btn-dashboard ml-2" htmlType="submit">
-                    {!!updateList ? "Update" : "Add"}
-                  </Button>
-                </Form.Item>
-              </div>
-            </div>
-          </div>
+          <div></div>
           {listOrder.length > 0 && (
             <div className="col-md-4 mt-4">
               <div className="row pl-2">

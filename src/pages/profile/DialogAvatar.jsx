@@ -1,81 +1,68 @@
 import React, { useState } from "react";
 import { Avatar, Button, Modal, Upload } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
-import {
-  LoadingOutlined,
-  PlusOutlined,
-  UploadOutlined,
-  LinkOutlined,
-} from "@ant-design/icons";
+import { UploadOutlined, LinkOutlined } from "@ant-design/icons";
 import {
   notificationSuccess,
   notificationWarning,
 } from "../../utils/Notification";
-import { updateUser } from "../../services/userService";
-import { getUserInfo } from "../../utils/storage";
 import { message } from "antd";
-import fs from "fs";
-import path from "path";
 import { getToken } from "../../utils/storage";
+import HvxButton from "../../components/button/HvxButton";
 
 const DialogAvatar = ({ setRefetch }) => {
   const [isModalUpload, setIsModalUpload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [avatarFile, setAvatarFile] = useState();
-  const [previewImage, setPreviewImage] = useState("");
-  const [fileList, setFileList] = useState([]);
   const token = getToken();
+
   const beforeUpload = (file) => {
     const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
     if (!isImage) {
-      message.error(
-        "Chỉ được tải lên các file ảnh có đuôi jpg, jpeg, png, gif!"
-      );
+      message.error("Only upload file ending by jpg, jpeg, png, gif!");
     }
     return isImage;
   };
 
   const handleChange = (info) => {
-    console.log(info.file, "truoc");
     if (info.file.status === "uploading") {
       setLoading(true);
       return;
     }
     if (info.file.originFileObj !== null) {
       setLoading(false);
-      setAvatarFile(info.file.originFileObj); // Lưu đối tượng File thay vì tên tệp
-      // setAvatar(URL.createObjectURL(info.file.originFileObj)); // Tạo URL cho tệp để hiển thị
+      setAvatarFile(info.file.originFileObj);
+      setImageUrl(info.file.name);
     }
     console.log(info.file);
   };
 
   const handleSubmit = () => {
     const axios = require("axios");
-    const FormData = require("form-data");
-
     let data = new FormData();
     data.append("file", avatarFile); // Truyền đối tượng File vào FormData
 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:8888/users/profile/avatars",
+      url: `${process.env.REACT_APP_BASE_API_URL}/users/profile/avatars`,
       headers: {
         Authorization: `Bearer ${token}`,
-        ...data.getHeaders(),
       },
       data: data,
     };
-
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        console.log(response);
+        notificationSuccess("Update avatar successfully");
+        setRefetch(Date.now());
       })
       .catch((error) => {
         console.log(error);
       });
+    setIsModalUpload(false);
   };
 
   return (
@@ -89,7 +76,7 @@ const DialogAvatar = ({ setRefetch }) => {
         title="Update avatar"
         visible={isModalUpload}
         onCancel={() => setIsModalUpload(false)}
-        onOk={handleSubmit}
+        footer={null} // Thêm dòng này để ẩn nút mặc định của Modal
       >
         <Upload
           action={false}
@@ -97,30 +84,6 @@ const DialogAvatar = ({ setRefetch }) => {
           showUploadList={false}
           beforeUpload={beforeUpload}
           onChange={handleChange}
-          customRequest={({ file, onSuccess, onError }) => {
-            const axios = require("axios");
-            let data = new FormData();
-            data.append("file", file); // Truyền đối tượng File vào FormData
-
-            let config = {
-              method: "post",
-              maxBodyLength: Infinity,
-              url: "http://localhost:8888/users/profile/avatars",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-              data: data,
-            };
-
-            axios
-              .request(config)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }}
         >
           <Button icon={<UploadOutlined />}>Upload</Button>
         </Upload>
@@ -129,6 +92,15 @@ const DialogAvatar = ({ setRefetch }) => {
             <LinkOutlined /> {imageUrl}
           </p>
         )}
+        <div className="hvx-btn-login" style={{ marginTop: "15px" }}>
+          <HvxButton
+            type="primary"
+            htmlType="submit"
+            text="Submit"
+            onClick={handleSubmit}
+          />{" "}
+          {/* Thêm sự kiện onClick vào đây */}
+        </div>
       </Modal>
     </div>
   );

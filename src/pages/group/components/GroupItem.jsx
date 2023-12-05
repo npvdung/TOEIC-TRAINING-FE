@@ -10,6 +10,17 @@ export const GroupItem = ({
 }) => {
   let history = useHistory();
 
+  const copyToClipBoard = (groupCode) => {
+    navigator.clipboard.writeText(groupCode).then(
+      () => {
+        console.log("Content copied to clipboard");
+      },
+      () => {
+        console.error("Failed to copy");
+      }
+    );
+  };
+
   return (
     <div
       className="group-item"
@@ -19,7 +30,14 @@ export const GroupItem = ({
     >
       <div className="group-left">{groupName}</div>
       <div className="group-right">
-        <span>{groupCode}</span>
+        <span
+          onClick={(e) => {
+            e.stopPropagation();
+            copyToClipBoard(groupCode);
+          }}
+        >
+          {groupCode}
+        </span>
         <Button
           type="primary"
           style={{ borderRadius: "10px" }}
