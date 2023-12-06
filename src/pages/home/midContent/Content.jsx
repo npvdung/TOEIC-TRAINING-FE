@@ -4,10 +4,11 @@ import Lesson from "./Lesson";
 import { getExamListByCategory } from "../../../services/examService";
 import "./style.scss";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { getExamList } from "../../../services/examService";
 
 const { Search } = Input;
 
-const Content = ({ currentMenu }) => {
+const Content = ({ currentMenu, groupId }) => {
   const [examList, setExamList] = useState();
   const [examListClone, setExamListClone] = useState();
   const [loadingData, setLoadingData] = useState(true);
@@ -17,7 +18,7 @@ const Content = ({ currentMenu }) => {
   useEffect(() => {
     setLoadingData(true);
     getExamListByCategory(
-      currentMenu,
+      9,
       (res) => {
         setExamList(res.data.data);
         setExamListClone(res.data.data);
@@ -45,7 +46,7 @@ const Content = ({ currentMenu }) => {
   };
 
   return (
-    <div className="col-md-6 midContent">
+    <div className="col-md-8 midContent">
       <Spin spinning={loadingData}>
         <div className="content-header">
           <div className="row">

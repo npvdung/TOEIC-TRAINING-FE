@@ -1,27 +1,27 @@
-import React from 'react'
-import './style.scss'
-import logo from '../../../assets/logo/logo.png'
-import { LoginOutlined } from '@ant-design/icons'
-import Swal from 'sweetalert2'
-import { useHistory } from 'react-router'
-import { ROUTER_CONST } from '../../../config/paramsConst/RouterConst'
-import { getUserInfo } from '../../../utils/storage'
+import React from "react";
+import "./style.scss";
+import logo from "../../../assets/logo/logo.png";
+import { LoginOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router";
+import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
+import { getUserInfo } from "../../../utils/storage";
 
 const GameHeader = () => {
-  const history = useHistory()
-  const user = getUserInfo()
+  const history = useHistory();
+  const user = getUserInfo();
 
   const onBack = () => {
     Swal.fire({
-      title: 'Are you sure you want to exit?',
-      icon: 'warning',
+      title: "Are you sure you want to exit?",
+      icon: "warning",
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push(ROUTER_CONST.home)
+        history.goBack();
       }
-    })
-  }
+    });
+  };
   return (
     <div className="hvx-gameHeader">
       <div className="container">
@@ -46,7 +46,7 @@ const GameHeader = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GameHeader
+export default GameHeader;

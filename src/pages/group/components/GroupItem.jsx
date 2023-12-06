@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { notificationSuccess } from "../../../utils/Notification";
 
 export const GroupItem = ({
   groupId,
@@ -13,7 +14,7 @@ export const GroupItem = ({
   const copyToClipBoard = (groupCode) => {
     navigator.clipboard.writeText(groupCode).then(
       () => {
-        console.log("Content copied to clipboard");
+        notificationSuccess("Copy code to clipboard");
       },
       () => {
         console.error("Failed to copy");
@@ -30,14 +31,20 @@ export const GroupItem = ({
     >
       <div className="group-left">{groupName}</div>
       <div className="group-right">
-        <span
+        <Button
+          type="primary"
+          style={{
+            borderRadius: "10px",
+            backgroundColor: "green",
+            border: "none",
+          }}
           onClick={(e) => {
             e.stopPropagation();
             copyToClipBoard(groupCode);
           }}
         >
           {groupCode}
-        </span>
+        </Button>
         <Button
           type="primary"
           style={{ borderRadius: "10px" }}

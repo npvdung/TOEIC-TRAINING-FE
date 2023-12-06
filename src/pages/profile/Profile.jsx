@@ -66,7 +66,7 @@ const Profile = () => {
           <Tooltip
             placement={TOOLTIP_POSITION}
             title={"Go back"}
-            color={"black"}
+            color={"white"}
           >
             <div
               className="icon-back"
@@ -109,7 +109,7 @@ const Profile = () => {
               <Tooltip
                 placement={TOOLTIP_POSITION}
                 title={"Change password"}
-                color={"black"}
+                color={"white"}
               >
                 <EditOutlined
                   style={{ color: "#a3a3a3" }}

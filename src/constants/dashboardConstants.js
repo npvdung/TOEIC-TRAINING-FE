@@ -96,13 +96,13 @@ export const templateExam = [
     quantity: 30,
   },
   {
-    type: 1,
+    type: 2,
     level: 1,
     categoryId: 6,
     quantity: 16,
   },
   {
-    type: 1,
+    type: 2,
     level: 1,
     categoryId: 8,
     quantity: 54,

@@ -1,55 +1,55 @@
-import React, { useEffect, useState } from 'react'
-import { Table, Button, Spin, Select } from 'antd'
-import { RetweetOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import React, { useEffect, useState } from "react";
+import { Table, Button, Spin, Select } from "antd";
+import { RetweetOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import {
   notificationSuccess,
   // notificationWarning,
-} from '../../../../utils/Notification'
-import Swal from 'sweetalert2'
+} from "../../../../utils/Notification";
+import Swal from "sweetalert2";
 import {
   fetchQuestions,
   removeQuestion,
-} from '../../../../services/questionService'
-import FormAddQuestion from './FormAddQuestion'
-import { flatDataTable } from '../../../../utils/questionTools'
+} from "../../../../services/questionService";
+import FormAddQuestion from "./FormAddQuestion";
+import { flatDataTable } from "../../../../utils/questionTools";
 import {
   renderHTMLtoWord,
   renderQuestionLevel,
-} from '../../../../constants/dashboardConstants'
-import { fetchCategories } from '../../../../services/categoriesService'
-import { notificationErr } from '../../../../utils/Notification'
-import FormEditQuestion from './FormEditQuestion'
-import FormViewQuestion from './FormViewQuestion'
+} from "../../../../constants/dashboardConstants";
+import { fetchCategories } from "../../../../services/categoriesService";
+import { notificationErr } from "../../../../utils/Notification";
+import FormEditQuestion from "./FormEditQuestion";
+import FormViewQuestion from "./FormViewQuestion";
 // import FormAddReadingQuestion from './FormAddReadingQuestion'
-import { Trash } from 'react-bootstrap-icons'
+import { Trash } from "react-bootstrap-icons";
 
 // const { Search } = Input
-const { Option } = Select
+const { Option } = Select;
 
 const QuestionDashboard = () => {
-  const [questionsList, setQuestionList] = useState([])
-  const [questionsListClone, setQuestionListClone] = useState([]) // search
-  const [categoriesList, setCategoriesList] = useState([])
+  const [questionsList, setQuestionList] = useState([]);
+  const [questionsListClone, setQuestionListClone] = useState([]); // search
+  const [categoriesList, setCategoriesList] = useState([]);
   // const [questionSearchName, setQuestionSearchName] = useState('')
 
-  const [loadingDataTable, setLoadingDataTable] = useState(false)
-  const [openAddForm, setOpenAddForm] = useState(false)
+  const [loadingDataTable, setLoadingDataTable] = useState(false);
+  const [openAddForm, setOpenAddForm] = useState(false);
   // const [openFormReadingQuestion, setOpenFormReadingQuestion] = useState(false)
-  const [refetch, setRefetch] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [refetch, setRefetch] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const [currentCategorySelected, setCurrentCategorySelected] = useState(0)
+  const [currentCategorySelected, setCurrentCategorySelected] = useState(0);
 
   useEffect(() => {
-    setLoadingDataTable(true)
+    setLoadingDataTable(true);
     fetchQuestions((res) => {
       flatDataTable(res.data.data, (data) => {
-        setQuestionList(data)
-        setQuestionListClone(data)
-      })
-      setLoadingDataTable(false)
-    })
-  }, [refetch])
+        setQuestionList(data);
+        setQuestionListClone(data);
+      });
+      setLoadingDataTable(false);
+    });
+  }, [refetch]);
 
   // const handleSearchQuestion = () => {
   //   if (questionSearchName) {
@@ -68,115 +68,109 @@ const QuestionDashboard = () => {
   useEffect(() => {
     fetchCategories(
       (res) => setCategoriesList(res.data.data),
-      () => notificationErr('Oop something went wrong')
-    )
-  }, [])
+      () => notificationErr("Oop something went wrong")
+    );
+  }, []);
 
   const renderCategory = (categoryId) => {
     if (categoriesList.length) {
-      const category = categoriesList.find((item) => item.id === categoryId)
-      return category?.categoryName || 'no category'
+      const category = categoriesList.find((item) => item.id === categoryId);
+      return category?.categoryName || "no category";
     }
-  }
+  };
 
   useEffect(() => {
     if (!currentCategorySelected) {
-      setQuestionList(questionsListClone)
+      setQuestionList(questionsListClone);
     } else {
-      const temp = JSON.parse(JSON.stringify(questionsListClone))
+      const temp = JSON.parse(JSON.stringify(questionsListClone));
       const newQuestionListByCategory = temp.filter(
         (question) => question.questionCategory === currentCategorySelected
-      )
-      setQuestionList(newQuestionListByCategory)
+      );
+      setQuestionList(newQuestionListByCategory);
     }
     // eslint-disable-next-line
-  }, [currentCategorySelected, questionsListClone])
+  }, [currentCategorySelected, questionsListClone]);
 
   const handleResetQuestions = () => {
-    setRefetch(Date.now())
+    setRefetch(Date.now());
     // setQuestionSearchName('')
-  }
+  };
 
   const handleDeleteQuestion = (questionId) => {
     Swal.fire({
-      title: 'Are you sure delete this question?',
-      icon: 'warning',
+      title: "Are you sure delete this question?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes!',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
-        setLoading(true)
+        setLoading(true);
         removeQuestion(
           questionId,
           () => {
-            setLoading(false)
-            setRefetch(Date.now())
-            notificationSuccess('Delete successfully')
+            setLoading(false);
+            setRefetch(Date.now());
+            notificationSuccess("Delete successfully");
           },
           (error) => console.log(error)
-        )
+        );
       }
-    })
-  }
+    });
+  };
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      width: '2%',
-      key: 'id',
-    },
-    {
-      title: 'Title',
-      dataIndex: 'questionTitle',
-      width: '30%',
-      key: 'questionTitle',
+      title: "Title",
+      dataIndex: "questionTitle",
+      width: "30%",
+      key: "questionTitle",
       render: (questionTitle) => {
         return (
           <div className="quest-content-html">
             {renderHTMLtoWord(questionTitle)}
           </div>
-        )
+        );
       },
     },
     {
-      title: 'Content',
-      dataIndex: 'questionContent',
-      width: '40%',
-      key: 'questionContent',
+      title: "Content",
+      dataIndex: "questionContent",
+      width: "40%",
+      key: "questionContent",
       render: (questionContent) => {
         return (
           <div className="quest-content-html">
             {renderHTMLtoWord(questionContent)}
           </div>
-        )
+        );
       },
     },
     {
-      title: 'Category',
-      dataIndex: 'questionCategory',
-      width: '10%',
-      key: 'questionCategory',
+      title: "Category",
+      dataIndex: "questionCategory",
+      width: "10%",
+      key: "questionCategory",
       render: (category) => renderCategory(category),
     },
     {
-      title: 'Level',
-      dataIndex: 'questionLevel',
-      width: '5%',
-      key: 'questionLevel',
+      title: "Level",
+      dataIndex: "questionLevel",
+      width: "5%",
+      key: "questionLevel",
       render: (questionLevel) => renderQuestionLevel(questionLevel),
     },
     {
-      title: 'Point',
-      dataIndex: 'questionPoint',
-      width: '3%',
-      key: 'questionPoint',
+      title: "Point",
+      dataIndex: "questionPoint",
+      width: "3%",
+      key: "questionPoint",
     },
     {
-      title: '',
-      key: 'action',
+      title: "",
+      key: "action",
       render: (row) => {
         return (
           <div className="center flex-row">
@@ -197,11 +191,11 @@ const QuestionDashboard = () => {
               <Trash />
             </Button>
           </div>
-        )
+        );
       },
-      width: '10%',
+      width: "10%",
     },
-  ]
+  ];
 
   return (
     <div className="content-wrapper">
@@ -221,15 +215,13 @@ const QuestionDashboard = () => {
               <div className="col-md-6 filter-input pl-0">
                 <Select
                   value={currentCategorySelected}
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   onChange={(category) => setCurrentCategorySelected(category)}
                 >
                   <Option value={0}>Choose category</Option>
-                  {categoriesList?.map((category) => (
-                    <Option key={category.id} value={category.id}>
-                      {category.categoryName}{' '}
-                    </Option>
-                  ))}
+                  <Option key={1} value={1}>
+                    Part 5
+                  </Option>
                 </Select>
               </div>
             </div>
@@ -246,7 +238,7 @@ const QuestionDashboard = () => {
             loading={loadingDataTable}
             columns={columns}
             dataSource={questionsList}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             pagination={{ pageSize: 10 }}
           />
         </div>
@@ -267,7 +259,7 @@ const QuestionDashboard = () => {
         openFormReadingQuestion={openFormReadingQuestion}
       /> */}
     </div>
-  )
-}
+  );
+};
 
-export default QuestionDashboard
+export default QuestionDashboard;

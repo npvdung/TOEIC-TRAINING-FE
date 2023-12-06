@@ -16,12 +16,21 @@ export const GroupDetail = () => {
 
   const content = useMemo(() => {
     switch (selectedIndex) {
-      case 0:
-        return <QuestionDashboard />;
       case 1:
-        return <ReadingQuestionDashboard />;
+        return <QuestionDashboard />;
       case 2:
+        return <ReadingQuestionDashboard />;
+      case 3:
         return <ExamDashboard groupId={id} />;
+      case 0:
+        return (
+          <div className="content">
+            <div className="row">
+              <Content currentMenu={9} groupId={id} />
+              <Rate />
+            </div>
+          </div>
+        );
       default:
         return <></>;
     }

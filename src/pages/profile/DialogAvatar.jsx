@@ -15,12 +15,16 @@ const DialogAvatar = ({ setRefetch }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [avatarFile, setAvatarFile] = useState();
+  const [isValidImg, setIsValidImg] = useState(true);
   const token = getToken();
 
   const beforeUpload = (file) => {
     const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file.name);
     if (!isImage) {
       message.error("Only upload file ending by jpg, jpeg, png, gif!");
+      setIsValidImg(false);
+    } else {
+      setIsValidImg(true);
     }
     return isImage;
   };
@@ -87,8 +91,13 @@ const DialogAvatar = ({ setRefetch }) => {
         >
           <Button icon={<UploadOutlined />}>Upload</Button>
         </Upload>
-        {imageUrl && (
-          <p style={{ marginTop: 8 }}>
+        {imageUrl && isValidImg && (
+          <p style={{ marginTop: 8, color: "green" }}>
+            <LinkOutlined /> {imageUrl}
+          </p>
+        )}
+        {imageUrl && !isValidImg && (
+          <p style={{ marginTop: 8, color: "red" }}>
             <LinkOutlined /> {imageUrl}
           </p>
         )}
