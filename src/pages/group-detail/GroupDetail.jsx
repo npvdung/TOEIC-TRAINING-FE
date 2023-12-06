@@ -15,6 +15,7 @@ export const GroupDetail = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const content = useMemo(() => {
+    console.log("id", id);
     switch (selectedIndex) {
       case 1:
         return <QuestionDashboard />;

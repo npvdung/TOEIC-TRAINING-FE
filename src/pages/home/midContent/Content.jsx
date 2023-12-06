@@ -17,8 +17,8 @@ const Content = ({ currentMenu, groupId }) => {
 
   useEffect(() => {
     setLoadingData(true);
-    getExamListByCategory(
-      9,
+    getExamList(
+      groupId,
       (res) => {
         setExamList(res.data.data);
         setExamListClone(res.data.data);
@@ -46,7 +46,7 @@ const Content = ({ currentMenu, groupId }) => {
   };
 
   return (
-    <div className="col-md-8 midContent">
+    <div className="col-md-9 midContent">
       <Spin spinning={loadingData}>
         <div className="content-header">
           <div className="row">

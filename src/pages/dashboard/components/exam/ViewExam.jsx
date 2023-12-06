@@ -272,12 +272,9 @@ const ViewExam = (props) => {
                   style={{ width: "100%" }}
                   // onChange={(value) => setQuestionCategorySelected(value)}
                 >
-                  <Option value="">Choose category</Option>
-                  {categoriesList?.map((category) => (
-                    <Option key={category.id} value={category.id}>
-                      {category.categoryName}
-                    </Option>
-                  ))}
+                  <Option key={9} value={9}>
+                    Standard Exam
+                  </Option>
                 </Select>
               </Form.Item>
             </div>

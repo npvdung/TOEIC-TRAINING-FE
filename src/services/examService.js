@@ -21,7 +21,7 @@ export const getExamListByCategory = async (
 
 export const getExamList = async (groupId, successCallback, errorCallback) => {
   await getRequest(
-    groupId ? ApiUrl.exam + `?groupdId=${groupId}` : ApiUrl.exam,
+    groupId ? ApiUrl.exam + `?groupId=${groupId}` : ApiUrl.exam,
     {},
     successCallback,
     errorCallback
