@@ -34,7 +34,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="col-md-2.5">
+    <div className="col-md-1.5">
       <HistoryDetails
         show={showHistoryDetails}
         onClose={() => setShowHistoryDetails(false)}

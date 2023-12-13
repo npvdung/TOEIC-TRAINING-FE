@@ -21,6 +21,12 @@ const Sidebar = ({
         </span>
       </div>
 
+      <div className="hvx-submit center mt-5">
+        <button className="hvx-btnSubmit btn-7">
+          <span onClick={handleFinishGame}>Submit</span>
+        </button>
+      </div>
+
       <div className="hvx-countCompleted center">
         <span>
           Completed: {activeQuestionList ? activeQuestionList?.length : 0}/
@@ -51,12 +57,6 @@ const Sidebar = ({
               );
             })
           : "No data"}
-      </div>
-
-      <div className="hvx-submit center mt-5">
-        <button className="hvx-btnSubmit btn-7">
-          <span onClick={handleFinishGame}>Submit</span>
-        </button>
       </div>
     </div>
   );

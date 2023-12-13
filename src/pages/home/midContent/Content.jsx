@@ -46,7 +46,7 @@ const Content = ({ currentMenu, groupId }) => {
   };
 
   return (
-    <div className="col-md-9 midContent">
+    <div className="col-md-8 midContent">
       <Spin spinning={loadingData}>
         <div className="content-header">
           <div className="row">
