@@ -16,11 +16,11 @@ const Sidebar = ({ setCurrentMenu, categoriesList }) => {
   };
 
   return (
-    <div className="col-md-1.5">
+    <div className="col-md-1">
       <div className="center">
         <div className="home-sidebar">
           <div className="user-profile">
-            <p className="user-fullname">Exams</p>
+            <p className="user-fullname center">Exams</p>
           </div>
         </div>
       </div>
